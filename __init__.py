@@ -32,17 +32,19 @@ class AamcCovid(MycroftSkill):
             checkin_event_time,
             checkin_event_frequency,
             name=PRONING_CHECKIN_EVENT_NAME,
+            data={stage:1},
         )
         self.speak_dialog("proning_stage_1")
 
     def __handle_checkin_event(self, message):
         """ Repeating event handler. Check if user is OK in new position.  """
         #self.speak_dialog("checkin")
-        self.log.debug("checkin")
+        self.log.info("checkin")
         response = self.ask_yesno("checkin.ask")
-        self.log.debug("Response: " + response)
         if response == "yes":
             self.speak_dialog("checkin.needhelp")
-        else:
+        elif response == "no":
             self.speak_dialog("checkin.nohelp")
+        else:
+            self.log.info("Unrecognized response: %s" % response)
 
