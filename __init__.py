@@ -28,10 +28,27 @@ class AamcCovid(MycroftSkill):
         #checkin_delay = datetime.timedelta(minutes=PRONING_CHECKIN_DELAY_MINS)
         self.__do_nextpos_event(1)
 
+    @intent_file_handler("stop_routine.intent")
+    def handle_stop_routine(self, message):
+        try:
+            self.cancel_scheduled_event(PRONING_CHECKIN_EVENT_NAME)
+        except:
+            pass
+        try:
+            self.cancel_scheduled_event(PRONING_NEXTPOS_EVENT_NAME)
+        except:
+            pass
+
     def __do_nextpos_event(self, stage):
         checkin_delay = datetime.timedelta(seconds=10)
         checkin_event_time = now_local() + checkin_delay
         checkin_event_frequency = 0
+        self.log.info("Checkin event: %s / %s / %s"
+                      % (
+                          checkin_event_time,
+                          checkin_event_frequency,
+                          PRONING_CHECKIN_EVENT_NAME,
+                      ))
         self.schedule_repeating_event(
             self.__handle_checkin_event,
             checkin_event_time,
@@ -51,6 +68,25 @@ class AamcCovid(MycroftSkill):
                 data={ "stage": next_stage },
             )
         self.speak_dialog("proning_stage_" + str(stage))
+
+    def __schedule_event(handler, delay_secs, event_name, freq_secs=None, data=None):
+        delay = datetime.timedelta(seconds=delay_secs)
+        event_time = now_local() + delay
+        event_frequency = datetime.timedelta(seconds=(freq_secs or 0))
+        self.log.info("Checkin event: now=%s; time=%s; freq=%s; name=%s"
+                      % (
+                          now_local(),
+                          event_time,
+                          event_frequency,
+                          event_name,
+                      ))
+        return self.schedule_repeating_event(
+            handler,
+            event_time,
+            event_frequency,
+            name=event_name,
+            data=data,
+        )
 
     def __handle_checkin_event(self, message):
         """ Repeating event handler. Check if user is OK in new position.  """
