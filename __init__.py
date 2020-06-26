@@ -6,6 +6,7 @@ import datetime
 def create_skill():
     return AamcCovid()
 
+PRONING_STAGE_COUNT = 4
 PRONING_CHECKIN_DELAY_MINS = 15
 PRONING_CHECKIN_EVENT_NAME = "aamc.covid.checkin"
 PRONING_NEXTPOS_EVENT_NAME = "aamc.covid.nextpos"
@@ -41,7 +42,7 @@ class AamcCovid(MycroftSkill):
         nextpos_event_time = now_local() + nextpos_delay
         nextpos_event_frequency = nextpos_delay
         next_stage = stage + 1
-        if next_stage < 4:
+        if next_stage <= PRONING_STAGE_COUNT:
             self.schedule_repeating_event(
                 self.__handle_nextpos_event,
                 nextpos_event_time,
