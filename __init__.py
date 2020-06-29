@@ -45,7 +45,7 @@ class AamcCovid(MycroftSkill):
         checkin_delay = datetime.timedelta(seconds=10)
         checkin_event_time = now_local() + checkin_delay
         checkin_event_frequency = 0
-        self.log.info("Checkin event: %s / %s / %s"
+        self.log.info("Nextpos event: %s / %s / %s"
                       % (
                           checkin_event_time,
                           checkin_event_frequency,
@@ -75,7 +75,7 @@ class AamcCovid(MycroftSkill):
         delay = datetime.timedelta(seconds=delay_secs)
         event_time = now_local() + delay
         event_frequency = datetime.timedelta(seconds=(freq_secs or 0))
-        self.log.info("Checkin event: now=%s; time=%s; freq=%s; name=%s"
+        self.log.info("Scheduling event: now=%s; time=%s; freq=%s; name=%s"
                       % (
                           now_local(),
                           event_time,
@@ -93,7 +93,7 @@ class AamcCovid(MycroftSkill):
     def __handle_checkin_event(self, message):
         """ Repeating event handler. Check if user is OK in new position.  """
         #self.speak_dialog("checkin")
-        self.log.info("Checkin. Data: " + str(message.data))
+        self.log.info("Handle Checkin. Data: " + str(message.data))
         response = self.ask_yesno("checkin.ask")
         if response == "yes":
             self.speak_dialog("checkin.needhelp")
@@ -105,7 +105,7 @@ class AamcCovid(MycroftSkill):
     def __handle_nextpos_event(self, message):
         """ Repeating event handler. Check if user is OK in new position.  """
         #self.speak_dialog("checkin")
-        self.log.info("Checkin. Data: " + str(message.data))
+        self.log.info("Handle Nextpos. Data: " + str(message.data))
         stage = message.data["stage"]
         self.__do_nextpos_event(stage)
 
