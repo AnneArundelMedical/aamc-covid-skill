@@ -38,6 +38,7 @@ class AamcCovid(MycroftSkill):
             self.cancel_scheduled_event(PRONING_NEXTPOS_EVENT_NAME)
         except:
             pass
+        self.speak_dialog("stop_routine.dialog")
 
     def __do_nextpos_event(self, stage):
         checkin_delay = datetime.timedelta(seconds=10)
