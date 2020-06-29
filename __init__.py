@@ -41,6 +41,7 @@ class AamcCovid(MycroftSkill):
         self.speak_dialog("stop_routine.dialog")
 
     def __do_nextpos_event(self, stage):
+        self.log.info("__do_nextpos_event")
         checkin_delay = datetime.timedelta(seconds=10)
         checkin_event_time = now_local() + checkin_delay
         checkin_event_frequency = 0
