@@ -53,7 +53,7 @@ class AamcCovid(MycroftSkill):
                       ))
         self.__schedule_event(
             self.__handle_checkin_event,
-            checkin_event_time,
+            10,
             PRONING_CHECKIN_EVENT_NAME,
         )
         #self.schedule_repeating_event(
