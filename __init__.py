@@ -45,30 +45,41 @@ class AamcCovid(MycroftSkill):
         checkin_delay = datetime.timedelta(seconds=10)
         checkin_event_time = now_local() + checkin_delay
         checkin_event_frequency = 0
-        self.log.info("Nextpos event: %s / %s / %s"
+        self.log.info("Do nextpos event: %s / %s / %s"
                       % (
                           checkin_event_time,
                           checkin_event_frequency,
                           PRONING_CHECKIN_EVENT_NAME,
                       ))
-        self.schedule_repeating_event(
+        self.__schedule_event(
             self.__handle_checkin_event,
             checkin_event_time,
-            checkin_event_frequency,
-            name=PRONING_CHECKIN_EVENT_NAME,
+            PRONING_CHECKIN_EVENT_NAME,
         )
+        #self.schedule_repeating_event(
+        #    self.__handle_checkin_event,
+        #    checkin_event_time,
+        #    checkin_event_frequency,
+        #    name=PRONING_CHECKIN_EVENT_NAME,
+        #)
         nextpos_delay = datetime.timedelta(seconds=60)
         nextpos_event_time = now_local() + nextpos_delay
         nextpos_event_frequency = nextpos_delay
         next_stage = stage + 1
         if next_stage <= PRONING_STAGE_COUNT:
-            self.schedule_repeating_event(
+            self.__schedule_event(
                 self.__handle_nextpos_event,
-                nextpos_event_time,
-                0,
-                name=PRONING_NEXTPOS_EVENT_NAME,
+                60,
+                PRONING_NEXTPOS_EVENT_NAME,
                 data={ "stage": next_stage },
             )
+            #self.schedule_repeating_event(
+            #    self.__handle_nextpos_event,
+            #    nextpos_event_time,
+            #    0,
+            #    name=PRONING_NEXTPOS_EVENT_NAME,
+            #    data={ "stage": next_stage },
+            #)
         self.speak_dialog("proning_stage_" + str(stage))
 
     def __schedule_event(handler, delay_secs, event_name, freq_secs=None, data=None):
@@ -93,7 +104,7 @@ class AamcCovid(MycroftSkill):
     def __handle_checkin_event(self, message):
         """ Repeating event handler. Check if user is OK in new position.  """
         #self.speak_dialog("checkin")
-        self.log.info("Handle Checkin. Data: " + str(message.data))
+        self.log.info("Handle checkin. Data: " + str(message.data))
         response = self.ask_yesno("checkin.ask")
         if response == "yes":
             self.speak_dialog("checkin.needhelp")
@@ -105,7 +116,7 @@ class AamcCovid(MycroftSkill):
     def __handle_nextpos_event(self, message):
         """ Repeating event handler. Check if user is OK in new position.  """
         #self.speak_dialog("checkin")
-        self.log.info("Handle Nextpos. Data: " + str(message.data))
+        self.log.info("Handle nextpos. Data: " + str(message.data))
         stage = message.data["stage"]
         self.__do_nextpos_event(stage)
 
