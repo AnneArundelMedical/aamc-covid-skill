@@ -83,6 +83,7 @@ class AamcCovid(MycroftSkill):
         self.speak_dialog("proning_stage_" + str(stage))
 
     def __schedule_event(self, handler, delay_secs, event_name, freq_secs=None, data=None):
+        self.log.info("__schedule_event: delay=%d, event=%s" % (delay_secs, event_name))
         delay = datetime.timedelta(seconds=delay_secs)
         event_time = now_local() + delay
         event_frequency = datetime.timedelta(seconds=(freq_secs or 0))
