@@ -86,6 +86,8 @@ class AamcCovid(MycroftSkill):
         self.log.info("__schedule_event: delay=%d, event=%s" % (delay_secs, event_name))
         delay = datetime.timedelta(seconds=delay_secs)
         event_time = now_local() + delay
+        # Timedelta is the wrong type for the frequency. Need to figure out how
+        # to pass this correctly.
         #event_frequency = datetime.timedelta(seconds=(freq_secs or 0))
         event_frequency = None
         self.log.info("Scheduling event: now=%s; time=%s; freq=%s; name=%s"
