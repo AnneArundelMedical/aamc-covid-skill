@@ -2,12 +2,10 @@
 Interacts with patients.
 
 ## About
-Interacts with patients real good.
+Guides patients through the covid proning protocol. Communicates patient status to the nursing station (not implemented yet).
 
 ## Examples
-* "I'm uncomfortable"
-* "Turn me over"
-* "My back hurts"
+* "start proning"
 
 ## Credits
 Anne Arundel Medical Center
