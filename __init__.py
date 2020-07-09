@@ -1,7 +1,8 @@
 from mycroft import MycroftSkill, intent_file_handler
-from mycroft.util.time import now_local
+from mycroft.util.time import now_local, utc_now
 from mycroft.util.log import LOG
 import datetime
+import requests
 
 def create_skill():
     return AamcCovid()
@@ -10,6 +11,14 @@ PRONING_STAGE_COUNT = 4
 PRONING_CHECKIN_DELAY_MINS = 15
 PRONING_CHECKIN_EVENT_NAME = "aamc.covid.checkin"
 PRONING_NEXTPOS_EVENT_NAME = "aamc.covid.nextpos"
+
+POLL_EVENTS_FREQUENCY_SECS = 15
+POLL_EVENTS_EVENT_NAME = "aamc.covid.pollevents"
+POLL_EVENTS_USER = "mycroft_covid"
+POLL_EVENTS_PWD = "xyz"
+
+def now():
+    return utc_now()
 
 class AamcCovid(MycroftSkill):
     def __init__(self):
@@ -43,7 +52,7 @@ class AamcCovid(MycroftSkill):
     def __do_nextpos_event(self, stage):
         self.log.info("__do_nextpos_event")
         checkin_delay = datetime.timedelta(seconds=10)
-        checkin_event_time = now_local() + checkin_delay
+        checkin_event_time = now() + checkin_delay
         checkin_event_frequency = 0
         self.log.info("Do nextpos event: %s / %s / %s"
                       % (
@@ -63,7 +72,7 @@ class AamcCovid(MycroftSkill):
         #    name=PRONING_CHECKIN_EVENT_NAME,
         #)
         nextpos_delay = datetime.timedelta(seconds=60)
-        nextpos_event_time = now_local() + nextpos_delay
+        nextpos_event_time = now() + nextpos_delay
         nextpos_event_frequency = nextpos_delay
         next_stage = stage + 1
         if next_stage <= PRONING_STAGE_COUNT:
@@ -85,14 +94,14 @@ class AamcCovid(MycroftSkill):
     def __schedule_event(self, handler, delay_secs, event_name, freq_secs=None, data=None):
         self.log.info("__schedule_event: delay=%d, event=%s" % (delay_secs, event_name))
         delay = datetime.timedelta(seconds=delay_secs)
-        event_time = now_local() + delay
+        event_time = now() + delay
         # Timedelta is the wrong type for the frequency. Need to figure out how
         # to pass this correctly.
         #event_frequency = datetime.timedelta(seconds=(freq_secs or 0))
         event_frequency = None
         self.log.info("Scheduling event: now=%s; time=%s; freq=%s; name=%s"
                       % (
-                          now_local(),
+                          now(),
                           event_time,
                           event_frequency,
                           event_name,
@@ -133,3 +142,16 @@ class AamcCovid(MycroftSkill):
         else:
             self.log.info("Unrecognized response: %s" % response)
 
+    def poll_events(self):
+        self.schedule_repeating_event(
+            self.__handle_poll_events,
+            0,
+            POLL_EVENTS_FREQUENCY_SECS,
+            name=POLL_EVENTS_EVENT_NAME,
+        )
+
+    def __handle_poll_events(self, message):
+        r = requests.get(POLL_EVENTS_URI, auth=(POLL_EVENTS_USER, POLL_EVENTS_PWD))
+        if r.status_code != 200:
+            self.log.error("Error polling events: " + r.text)
+            return
