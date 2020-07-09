@@ -1,5 +1,5 @@
 from mycroft import MycroftSkill, intent_file_handler
-from mycroft.util.time import now_local, utc_now
+from mycroft.util.time import now_local, now_utc
 from mycroft.util.log import LOG
 import datetime
 import requests
@@ -18,7 +18,7 @@ POLL_EVENTS_USER = "mycroft_covid"
 POLL_EVENTS_PWD = "xyz"
 
 def now():
-    return utc_now()
+    return now_utc()
 
 class AamcCovid(MycroftSkill):
     def __init__(self):
