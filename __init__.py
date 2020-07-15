@@ -31,6 +31,7 @@ class AamcCovid(MycroftSkill):
         self.api = messaging.MessageApi(API_HOST, API_USERNAME, API_PASSWORD)
         self.api.add_message_handler("StartProning", self.__handle_message_start_proning)
         self.api.add_message_handler("StopProning", self.__handle_message_stop_proning)
+        self.schedule_poll_events()
 
     def __handle_message_start_proning(self, message_payload):
         position = message_payload["position"]
@@ -165,7 +166,7 @@ class AamcCovid(MycroftSkill):
         else:
             self.log.info("Unrecognized response: %s" % response)
 
-    def poll_events(self):
+    def schedule_poll_events(self):
         self.schedule_repeating_event(
             self.__handle_poll_events,
             0,
