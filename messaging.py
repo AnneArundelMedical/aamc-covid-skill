@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-import datetime, requests, json
+import datetime, requests, json, socket, pathlib, os.path, uuid
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+TEST_HOST = "localhost:44301"
 
 class MessageApi:
 
@@ -9,32 +13,65 @@ class MessageApi:
             self.__auth = (username, password)
         else:
             self.__auth = None
+        self.__verify = False # FIXME: Configure with client cert
         self.__message_handlers = {}
+        self.ip_address = self.get_ip_address()
+        self.guid = self.get_guid()
+        self.device_id = self.register_device()
+
+    def get_ip_address(self):
+        return socket.gethostbyname(socket.gethostname()) # FIXME: might not work everywhere
+
+    def get_guid(self):
+        home_dir = pathlib.Path.home()
+        guid_path = os.path.join(home_dir, "aamc_device_guid")
+        if os.path.exists(guid_path):
+            with open(guid_path) as f:
+                guid = f.read().strip()
+        else:
+            guid = str(uuid.uuid4())
+            with open(guid_path, "w") as f:
+                print(guid, file=f)
+        return guid
 
     def __url(self, route):
         return 'https://%s/api/%s' % (self.__host, route)
 
     def send_message(self, message_type, payload):
-        self.post("event/client", message_type, data = payload)
+        self.post("event/client", {
+            "senderDeviceId": self.device_id,
+            "messageType": message_type,
+            "payload": payload,
+        })
 
     def receive_messages(self):
-        return self.get("event/client")
+        return self.get("event/server/%d" % self.device_id)
+
+    def register_device(self):
+        return self.post("event/device", { "guid": self.guid, "ipAddress": self.ip_address })
 
     def get(self, route):
-        r = requests.get(self.__url(route), auth=self.__auth)
+        r = requests.get(self.__url(route), auth=self.__auth, verify=self.__verify)
         return self.__process_response(r)
 
     def post(self, route, args):
-        r = requests.post(self.__url(route), auth=self.__auth)
+        print("ARGS:", args)
+        r = requests.post(
+            self.__url(route),
+            data=json.dumps(args),
+            headers={"content-type": "application/json"},
+            auth=self.__auth,
+            verify=self.__verify,
+            )
         return self.__process_response(r)
 
     def __process_response(self, r):
         if r.status_code == 200:
             if r.text == "":
                 return None
-            return json.loads(r.text)
+            return r.json()
         else:
-            raise RequestError(r.status_code, r.status_text)
+            raise RequestError(r.status_code)
 
     def report_proning_position(self, position_number: int):
         self.send_message("ReportProning", { "position": position_number })
@@ -45,23 +82,28 @@ class MessageApi:
     def add_message_handler(self, message_name, message_handler):
         self.__message_handlers[message_name] = message_handler
 
-    def poll_events(self):
-        events = self.receive_messages()
-        for e in events:
-            mt = e["message_type"]
+    def poll_messages(self):
+        messages = self.receive_messages()
+        for msg in messages:
+            print("poll_messages:", json.dumps(msg))
+            mt = msg["messageType"]
             handler = self.__message_handlers.get(mt)
             if not handler:
-                self.log.error("Unhandled event: " + json.dumps(e))
+                #self.log.error("Unhandled event: " + json.dumps(msg))
+                pass
             try:
-                handler(e)
-            except Exception as e:
-                self.log.error(e)
+                handler(msg)
+            except Exception as msg:
+                #self.log.error(msg)
+                pass
 
 class RequestError(Exception):
     pass
 
-class TestInteractive:
-    def __init__(self, host="localhost"):
+class Tester:
+    def __init__(self, host=None):
+        if not host:
+            host = TEST_HOST
         self.api = MessageApi(host)
         self.api.add_message_handler("StartProning", self.h_start_proning)
         self.api.add_message_handler("StopProning", self.h_stop_proning)
@@ -69,9 +111,11 @@ class TestInteractive:
     def status(self):
         print("Mycroft Test Status:")
         print("  Proning position:", self.position)
-    def poll_events(self):
-        self.api.poll_events()
-    def call_nurse(self):
+    def poll(self):
+        print("poll_messages: begin")
+        self.api.poll_messages()
+        print("poll_messages: end")
+    def call(self):
         self.api.call_nurse()
     def proning(self, position):
         self.api.report_proning_position(position)
@@ -81,4 +125,9 @@ class TestInteractive:
         print("SPEAK: Start proning position %d." % payload["position"])
     def h_stop_proning(self, message_type, payload):
         print("STOP PRONING")
+
+def test():
+    x = Tester()
+    x.poll()
+    x.call()
 
