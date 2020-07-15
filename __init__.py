@@ -2,7 +2,7 @@ from mycroft import MycroftSkill, intent_file_handler
 from mycroft.util.time import now_local, now_utc
 from mycroft.util.log import LOG
 import datetime
-import requests
+import requests, json
 
 def create_skill():
     return AamcCovid()
@@ -17,12 +17,30 @@ POLL_EVENTS_EVENT_NAME = "aamc.covid.pollevents"
 POLL_EVENTS_USER = "mycroft_covid"
 POLL_EVENTS_PWD = "xyz"
 
+API_HOST = "localhost"
+API_USERNAME = None
+API_PASSWORD = None
+
 def now():
     return now_utc()
 
 class AamcCovid(MycroftSkill):
+
     def __init__(self):
         MycroftSkill.__init__(self)
+        self.api = messaging.MessageApi(API_HOST, API_USERNAME, API_PASSWORD)
+        self.api.add_message_handler("StartProning", self.__handle_message_start_proning)
+        self.api.add_message_handler("StopProning", self.__handle_message_stop_proning)
+
+    def __handle_message_start_proning(self, message_payload):
+        position = message_payload["position"]
+        if position < 1 or position > 4:
+            raise Exception("Invalid position: %d" % position)
+        self.__stop_proning()
+        self.__start_proning(position)
+
+    def __handle_message_stop_proning(self, message_payload):
+        self.__stop_proning()
 
     @intent_file_handler('covid.aamc.intent')
     def handle_covid_aamc(self, message):
@@ -34,11 +52,16 @@ class AamcCovid(MycroftSkill):
 
     @intent_file_handler("start_routine.intent")
     def handle_start_routine(self, message):
-        #checkin_delay = datetime.timedelta(minutes=PRONING_CHECKIN_DELAY_MINS)
-        self.__do_nextpos_event(1)
+        self.__start_proning()
 
     @intent_file_handler("stop_routine.intent")
     def handle_stop_routine(self, message):
+        self.__stop_proning()
+
+    def __start_proning(self, position=1):
+        self.__do_nextpos_event(position)
+
+    def __stop_proning(self):
         try:
             self.cancel_scheduled_event(PRONING_CHECKIN_EVENT_NAME)
         except:
@@ -151,7 +174,22 @@ class AamcCovid(MycroftSkill):
         )
 
     def __handle_poll_events(self, message):
-        r = requests.get(POLL_EVENTS_URI, auth=(POLL_EVENTS_USER, POLL_EVENTS_PWD))
-        if r.status_code != 200:
-            self.log.error("Error polling events: " + r.text)
-            return
+        events = api.receive_events()
+        for e in events:
+            self.log.info("Event received: " + json.dumps(e))
+            self.__handle_event(e)
+
+    def __handle_event(self, event):
+        t = event["EventType"]
+        if t == "NEW_PATIENT":
+            self.__new_patient(event["Payload"]["Patient"])
+        elif t == "START_PRONING":
+            self.__start_proning()
+        else:
+            raise Exception("Invalid event type: " + t)
+
+    def __new_patient(self, patient):
+        self.__stop_proning()
+        self.__patient_name = patient["Name"]
+        self.__patient_start_time = now()
+
