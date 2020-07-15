@@ -174,10 +174,7 @@ class AamcCovid(MycroftSkill):
         )
 
     def __handle_poll_events(self, message):
-        events = api.receive_events()
-        for e in events:
-            self.log.info("Event received: " + json.dumps(e))
-            self.__handle_event(e)
+        events = self.api.poll_events()
 
     def __handle_event(self, event):
         t = event["EventType"]

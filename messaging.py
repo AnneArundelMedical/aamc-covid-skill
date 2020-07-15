@@ -3,7 +3,7 @@ import datetime, requests, json
 
 class MessageApi:
 
-    def __init__(self, api_host, username, password):
+    def __init__(self, api_host, username=None, password=None):
         self.__host = api_host
         if username and password:
             self.__auth = (username, password)
@@ -63,13 +63,22 @@ class RequestError(Exception):
 class TestInteractive:
     def __init__(self, host="localhost"):
         self.api = MessageApi(host)
+        self.api.add_message_handler("StartProning", self.h_start_proning)
+        self.api.add_message_handler("StopProning", self.h_stop_proning)
         self.position = 0
     def status(self):
         print("Mycroft Test Status:")
         print("  Proning position:", self.position)
+    def poll_events(self):
+        self.api.poll_events()
     def call_nurse(self):
         self.api.call_nurse()
     def proning(self, position):
         self.api.report_proning_position(position)
         self.position = position
+    def h_start_proning(self, message_type, payload):
+        print("START PRONING")
+        print("SPEAK: Start proning position %d." % payload["position"])
+    def h_stop_proning(self, message_type, payload):
+        print("STOP PRONING")
 
