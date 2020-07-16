@@ -1,8 +1,12 @@
+#!/usr/bin/env python3
+# vim: et ts=8 sts=4 sw=4
 from mycroft import MycroftSkill, intent_file_handler
 from mycroft.util.time import now_local, now_utc
 from mycroft.util.log import LOG
 import datetime
 import requests, json
+
+from . import messaging
 
 def create_skill():
     return AamcCovid()
@@ -28,10 +32,15 @@ class AamcCovid(MycroftSkill):
 
     def __init__(self):
         MycroftSkill.__init__(self)
-        self.api = messaging.MessageApi(API_HOST, API_USERNAME, API_PASSWORD)
+        self.__init_messaging()
+        self.schedule_poll_events()
+
+    def __init_messaging(self):
+        self.api = messaging.MessageApi(
+            API_HOST, username=API_USERNAME, password=API_PASSWORD, log=self.log)
         self.api.add_message_handler("StartProning", self.__handle_message_start_proning)
         self.api.add_message_handler("StopProning", self.__handle_message_stop_proning)
-        self.schedule_poll_events()
+        self.messenger = AamcCovidMessenger(self.api)
 
     def __handle_message_start_proning(self, message_payload):
         position = message_payload["position"]
@@ -175,19 +184,5 @@ class AamcCovid(MycroftSkill):
         )
 
     def __handle_poll_events(self, message):
-        events = self.api.poll_events()
-
-    def __handle_event(self, event):
-        t = event["EventType"]
-        if t == "NEW_PATIENT":
-            self.__new_patient(event["Payload"]["Patient"])
-        elif t == "START_PRONING":
-            self.__start_proning()
-        else:
-            raise Exception("Invalid event type: " + t)
-
-    def __new_patient(self, patient):
-        self.__stop_proning()
-        self.__patient_name = patient["Name"]
-        self.__patient_start_time = now()
+        events = self.messenger.poll()
 

@@ -8,17 +8,22 @@ TEST_HOST = "localhost:44301"
 
 class MessageApi:
 
-    def __init__(self, api_host, username=None, password=None):
+    def __init__(self, api_host, username=None, password=None, log=None):
         self.__host = api_host
         if username and password:
             self.__auth = (username, password)
         else:
             self.__auth = None
+        self.__log = log
         self.__verify = False # FIXME: Configure with client cert
         self.__message_handlers = {}
         self.ip_address = self.get_ip_address()
         self.guid = self.get_guid()
         self.device_id = self.register_device()
+
+    def __log_error(self, message):
+        if self.__log:
+            self.__log.error(message)
 
     def get_ip_address(self):
         return socket.gethostbyname(socket.gethostname()) # FIXME: might not work everywhere
@@ -74,12 +79,6 @@ class MessageApi:
         else:
             raise RequestError(r.status_code)
 
-    def report_proning_position(self, position_number: int):
-        self.send_message("ReportProning", { "position": position_number })
-
-    def call_nurse(self):
-        self.send_message("CallNurse", {})
-
     def add_message_handler(self, message_name, message_handler):
         self.__message_handlers[message_name] = message_handler
 
@@ -91,19 +90,32 @@ class MessageApi:
             mt = msg["messageType"]
             handler = self.__message_handlers.get(mt)
             if not handler:
-                print("Unhandled event: " + json.dumps(msg))
-                #self.log.error("Unhandled event: " + json.dumps(msg))
+                self.__log_error("Unhandled event: " + json.dumps(msg))
                 pass
             try:
                 handler(mt, msg["payload"])
                 self.mark_message_complete(msg["messageId"])
             except Exception as e:
-                #self.log.error(msg)
-                print("ERROR HANDLING MESSAGE:")
+                self.__log_error("ERROR HANDLING MESSAGE: " + json.dumps(msg))
+                self.__log_error(e)
                 traceback.print_exc()
 
     def mark_message_complete(self, message_id):
         return self.post("event/server/%d/%d/complete" % (self.device_id, message_id), {})
+
+class AamcCovidMessenger:
+
+    def __init__(self, api):
+        self.api = api
+
+    def report_proning_position(self, position_number: int):
+        self.api.send_message("ReportProning", { "position": position_number })
+
+    def call_nurse(self):
+        self.api.send_message("CallNurse", {})
+
+    def poll(self):
+        self.api.poll_messages()
 
 class RequestError(Exception):
     pass
@@ -115,28 +127,29 @@ class Tester:
         self.api = MessageApi(host)
         self.api.add_message_handler("StartProning", self.h_start_proning)
         self.api.add_message_handler("StopProning", self.h_stop_proning)
+        self.messenger = AamcCovidMessenger(self.api)
         self.position = 0
     def status(self):
         print("Mycroft Test Status:")
         print("  Proning position:", self.position)
     def poll(self):
         print("poll: begin")
-        self.api.poll_messages()
+        self.messenger.poll()
         print("poll: end")
     def call(self):
-        self.api.call_nurse()
+        self.messenger.call_nurse()
     def proning(self, position):
-        self.api.report_proning_position(position)
+        self.messenger.report_proning_position(position)
         self.position = position
     def h_start_proning(self, message_type, payload):
         print("START PRONING")
         position = payload["position"]
         print("SPEAK: Start proning position %d." % position)
         self.status()
-        self.api.report_proning_position(position)
+        self.messenger.report_proning_position(position)
     def h_stop_proning(self, message_type, payload):
         print("STOP PRONING")
-        self.api.report_proning_position(0)
+        self.messenger.report_proning_position(0)
 
 def test():
     x = Tester()
