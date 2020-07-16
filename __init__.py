@@ -32,7 +32,10 @@ class AamcCovid(MycroftSkill):
 
     def __init__(self):
         MycroftSkill.__init__(self)
-        self.__init_messaging()
+        try:
+            self.__init_messaging()
+        except Exception as e:
+            self.log.error(e)
         self.schedule_poll_events()
 
     def __init_messaging(self):
