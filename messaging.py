@@ -84,6 +84,7 @@ class MessageApi:
         self.__message_handlers[message_name] = message_handler
 
     def poll_messages(self):
+        print("poll_messages: begin")
         messages = self.receive_messages()
         for msg in messages:
             print("poll_messages:", json.dumps(msg))
@@ -94,7 +95,7 @@ class MessageApi:
                 #self.log.error("Unhandled event: " + json.dumps(msg))
                 pass
             try:
-                handler(msg)
+                handler(mt, msg["payload"])
                 self.mark_message_complete(msg["messageId"])
             except Exception as e:
                 #self.log.error(msg)
@@ -102,7 +103,7 @@ class MessageApi:
                 traceback.print_exc()
 
     def mark_message_complete(self, message_id):
-        return self.post("event/%d/%d/complete" % (self.device_id, message_id), {})
+        return self.post("event/server/%d/%d/complete" % (self.device_id, message_id), {})
 
 class RequestError(Exception):
     pass
@@ -119,9 +120,9 @@ class Tester:
         print("Mycroft Test Status:")
         print("  Proning position:", self.position)
     def poll(self):
-        print("poll_messages: begin")
+        print("poll: begin")
         self.api.poll_messages()
-        print("poll_messages: end")
+        print("poll: end")
     def call(self):
         self.api.call_nurse()
     def proning(self, position):
@@ -129,9 +130,13 @@ class Tester:
         self.position = position
     def h_start_proning(self, message_type, payload):
         print("START PRONING")
-        print("SPEAK: Start proning position %d." % payload["position"])
+        position = payload["position"]
+        print("SPEAK: Start proning position %d." % position)
+        self.status()
+        self.api.report_proning_position(position)
     def h_stop_proning(self, message_type, payload):
         print("STOP PRONING")
+        self.api.report_proning_position(0)
 
 def test():
     x = Tester()
