@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import datetime, requests, json, socket, pathlib, os.path, uuid
+import traceback
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -89,13 +90,19 @@ class MessageApi:
             mt = msg["messageType"]
             handler = self.__message_handlers.get(mt)
             if not handler:
+                print("Unhandled event: " + json.dumps(msg))
                 #self.log.error("Unhandled event: " + json.dumps(msg))
                 pass
             try:
                 handler(msg)
-            except Exception as msg:
+                self.mark_message_complete(msg["messageId"])
+            except Exception as e:
                 #self.log.error(msg)
-                pass
+                print("ERROR HANDLING MESSAGE:")
+                traceback.print_exc()
+
+    def mark_message_complete(self, message_id):
+        return self.post("event/%d/%d/complete" % (self.device_id, message_id), {})
 
 class RequestError(Exception):
     pass
