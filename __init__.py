@@ -39,8 +39,10 @@ class AamcCovid(MycroftSkill):
         self.schedule_poll_events()
 
     def __init_messaging(self):
+        config_dir = self.file_system.path
         self.api = messaging.MessageApi(
-            API_HOST, username=API_USERNAME, password=API_PASSWORD, log=self.log)
+            API_HOST, config_dir,
+            username=API_USERNAME, password=API_PASSWORD, log=self.log)
         self.api.add_message_handler("StartProning", self.__handle_message_start_proning)
         self.api.add_message_handler("StopProning", self.__handle_message_stop_proning)
         self.messenger = AamcCovidMessenger(self.api)

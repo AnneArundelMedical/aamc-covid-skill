@@ -8,8 +8,9 @@ TEST_HOST = "localhost:44301"
 
 class MessageApi:
 
-    def __init__(self, api_host, username=None, password=None, log=None):
+    def __init__(self, api_host, config_dir, username=None, password=None, log=None):
         self.__host = api_host
+        self.__config_dir = config_dir
         if username and password:
             self.__auth = (username, password)
         else:
@@ -29,8 +30,7 @@ class MessageApi:
         return socket.gethostbyname(socket.gethostname()) # FIXME: might not work everywhere
 
     def get_guid(self):
-        home_dir = pathlib.Path.home()
-        guid_path = os.path.join(home_dir, "aamc_device_guid")
+        guid_path = os.path.join(self.__config_dir, "aamc_device_guid")
         if os.path.exists(guid_path):
             with open(guid_path) as f:
                 guid = f.read().strip()
@@ -124,7 +124,8 @@ class Tester:
     def __init__(self, host=None):
         if not host:
             host = TEST_HOST
-        self.api = MessageApi(host)
+        home_dir = pathlib.Path.home()
+        self.api = MessageApi(host, home_dir)
         self.api.add_message_handler("StartProning", self.h_start_proning)
         self.api.add_message_handler("StopProning", self.h_stop_proning)
         self.messenger = AamcCovidMessenger(self.api)
