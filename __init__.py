@@ -32,6 +32,8 @@ class AamcCovid(MycroftSkill):
 
     def __init__(self):
         MycroftSkill.__init__(self)
+
+    def initialize(self):
         try:
             self.__init_messaging()
         except Exception as e:
