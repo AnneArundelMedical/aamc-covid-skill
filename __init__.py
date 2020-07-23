@@ -36,9 +36,9 @@ class AamcCovid(MycroftSkill):
     def initialize(self):
         try:
             self.__init_messaging()
+            self.schedule_poll_events()
         except Exception as e:
             self.log.error(e)
-        self.schedule_poll_events()
 
     def __init_messaging(self):
         config_dir = self.file_system.path
