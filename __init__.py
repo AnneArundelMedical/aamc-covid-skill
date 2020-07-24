@@ -25,6 +25,8 @@ API_HOST = "localhost"
 API_USERNAME = None
 API_PASSWORD = None
 
+INIT_MESSAGING_EVENT_NAME = "aamc.covid.initmessaging"
+
 def now():
     return now_utc()
 
@@ -35,19 +37,28 @@ class AamcCovid(MycroftSkill):
 
     def initialize(self):
         try:
+            config_dir = self.file_system.path
             self.__init_messaging()
             self.schedule_poll_events()
         except Exception as e:
             self.log.error(e)
 
+    def __schedule_init_messaging(self):
+        """ Repeatedly attempt to set up messaging, until it succeeds. """
+        return self.schedule_repeating_event(
+            __init_messaging,
+            0, 15,
+            name=INIT_MESSAGING_EVENT_NAME,
+        )
+
     def __init_messaging(self):
-        config_dir = self.file_system.path
         self.api = messaging.MessageApi(
             API_HOST, config_dir,
             username=API_USERNAME, password=API_PASSWORD, log=self.log)
         self.api.add_message_handler("StartProning", self.__handle_message_start_proning)
         self.api.add_message_handler("StopProning", self.__handle_message_stop_proning)
         self.messenger = AamcCovidMessenger(self.api)
+        self.cancel_scheduled_event(INIT_MESSAGING_EVENT_NAME)
 
     def __handle_message_start_proning(self, message_payload):
         position = message_payload["position"]
@@ -191,5 +202,6 @@ class AamcCovid(MycroftSkill):
         )
 
     def __handle_poll_events(self, message):
-        events = self.messenger.poll()
+        if self.messenger:
+            events = self.messenger.poll()
 
