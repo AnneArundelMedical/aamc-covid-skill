@@ -1,0 +1,85 @@
+PAL (Patient Assist Luminary) Pilot for Proning  
+
+Proning Script- DRAFT 072720 
+
+Please note: Instructions in English & Spanish
+
+Device: 
+(Start Proning=”Start COVID protocol”
+
+“Proning is changing your body position to help improve your blood oxygen levels and help you feel better. You will turn onto different sides of your body for one hour each time. If at any point in time, you want to pause, please say “ PAL Pause” , if at any point in time you want to get out of bed, do not attempt to do so without the help of your nurse. If you want to get out of bed, please press your nurse call button.”
+
+Device: Are you ready for the proning protocol?    
+ 
+Patient: Yes/No
+ 
+Device:  First position is  Left Side…. We will start with having you turn onto your left side. Please make sure that everything is out of the way as you move to the right side of your bed and turn onto your left side.  
+
+Wait three minutes
+ 
+Device: Have you turned onto your left side?
+
+Patient: yes/no
+
+[Conversation Decision Tree to be built here, see comment]
+
+Device: Would you like us to play music for you?
+ 
+Patient: yes/no
+
+Wait an hour, every 15 minutes are you feeling ok
+ 
+Device: Second Position is Right Side….Are you ready to turn to the right side?
+ 
+Patient: yes/no
+ 
+Device:  Please make sure that everything is out of the way as you move closer to the left side of bed and turn onto your right side.  
+
+Wait three minutes
+ 
+Device: Does that feel all right?
+ 
+Patient: yes/no
+Wait an hour, every 15 minutes: Are you feeling OK?
+ 
+Device: Sitting up…..It’s now time to sit up. Do you need help sitting up?
+ 
+Patient: yes/no
+
+[If yes, Device should say: “Please press your nurse call button and help will be on its way”]
+ 
+(if no) Device:  Please make sure that everything is out of the way as you move to the center of your bed and elevate the head of your bed while lying on your back.
+
+Wait 3 minutes
+ 
+Device: Does that feel all right?
+ 
+Patient: yes/no
+
+Wait an hour, every 15 minutes: Are you feeling OK?
+ 
+Device: Are you ready to turn onto your stomach?
+ 
+Patient: yes/no
+ 
+Device:  Prone ……You will now be proning, which is laying on your stomach. Your nurse or tech will help you move into this position. They will come in to assist you shortly. We ask that you do not attempt to do this without their help.  
+
+*trigger alarm so that clinical team member can come in)
+Wait 3 minutes
+ 
+Device: Does that feel all right?
+ 
+Patient: yes/no
+
+Wait an hour, every 15 minutes: Are you feeling OK?
+
+Commands:
+1 “Stop”= stop proning protocol
+2. “ Pause”= stop proning protocol
+3.  “Repeat”= repeat instructions or last position
+4.  “Restart”= Restart protocol at the last position
+5. “Forward” or “next”= go to the next position
+6.  “Play Music”  -- connects to Spotify
+ 
+Any no answer should alert healthcare team member.
+Protocol can be restarted periodically.
