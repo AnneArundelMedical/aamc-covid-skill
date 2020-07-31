@@ -47,6 +47,8 @@ def write_file(filename, language, content_lines):
         return
     if language is None and content_lines:
         raise Exception("No language specified for filename: " + filename)
+    if language is None:
+        return
     directory = "locale/%s" % language
     mkdir(directory)
     path = "%s/%s" % (directory, filename)
