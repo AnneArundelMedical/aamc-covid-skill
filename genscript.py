@@ -53,8 +53,12 @@ def write_file(filename, language, content_lines):
     mkdir(directory)
     path = "%s/%s" % (directory, filename)
     content = "\n".join(content_lines).strip()
+    content = content.replace("’", "'")
+    content = content.replace('“', '"')
+    content = content.replace('”', '"')
     with open(path, "wb") as f:
         f.write(content.encode("utf-8"))
+        f.write(b'\n')
 
 def mkdir(directory):
     pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
