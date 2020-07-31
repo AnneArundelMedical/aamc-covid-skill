@@ -25,7 +25,7 @@ def generate(source_path):
                     pass # one-line comment, just ignore this line
                 else:
                     in_comment = True # multi-line comment
-            if line.startswith(">"):
+            elif line.startswith(">"):
                 cmd, arg = line[1:].split("=")
                 old_filename = filename
                 old_language = language
@@ -43,8 +43,10 @@ def generate(source_path):
     write_file(filename, language, content_lines)
 
 def write_file(filename, language, content_lines):
-    if filename is None or language is None:
+    if filename is None:
         return
+    if language is None and content_lines:
+        raise Exception("No language specified for filename: " + filename)
     directory = "locale/%s" % language
     mkdir(directory)
     path = "%s/%s" % (directory, filename)
