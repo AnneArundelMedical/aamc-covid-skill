@@ -1,85 +1,128 @@
-PAL (Patient Assist Luminary) Pilot for Proning  
+[PAL (Patient Assist Luminary) Pilot for Proning] 
 
-Proning Script- DRAFT 072720 
+[Proning Script- DRAFT 072720]
 
-Please note: Instructions in English & Spanish
+[Please note: Instructions in English & Spanish]
 
-Device: 
-(Start Proning=”Start COVID protocol”
+>FILE=proning_0_intro.dialog
+>LANG=en-us
 
-“Proning is changing your body position to help improve your blood oxygen levels and help you feel better. You will turn onto different sides of your body for one hour each time. If at any point in time, you want to pause, please say “ PAL Pause” , if at any point in time you want to get out of bed, do not attempt to do so without the help of your nurse. If you want to get out of bed, please press your nurse call button.”
+Proning is changing your body position to help improve your blood oxygen levels
+and help you feel better. You will turn onto different sides of your body for
+one hour each time. If at any point in time, you want to pause, please say "PAL
+Pause".  If at any point in time you want to get out of bed, do not attempt to
+do so without the help of your nurse. If you want to get out of bed, please
+press your nurse call button.
 
-Device: Are you ready for the proning protocol?    
- 
-Patient: Yes/No
- 
-Device:  First position is  Left Side…. We will start with having you turn onto your left side. Please make sure that everything is out of the way as you move to the right side of your bed and turn onto your left side.  
+>LANG=es
 
-Wait three minutes
- 
-Device: Have you turned onto your left side?
+Proning es cambiar la posición de su cuerpo para ameliorar el nivel de oxígeno
+en la sangre y ayudarle a sentir bien. Usted va a girararse el cuerpo a
+diferentes lados del cuerpo por una hora cada vez. Si en cualquier momento
+quiero hacer pauso, por favor diga "pausa PAL". Si en algún momento desea
+levantarse de la cama, no intente hacerlo sin la ayuda de su enfermera. Si
+desea levantarse de la cama, presione el botón para llamar enfermera.
 
-Patient: yes/no
+>FILE=proning_1.1_ask.dialog
+>LANG=en-us
+Are you ready for the proning protocol?    
+
+>FILE=proning_1.2_move.dialog
+>LANG=en-us
+First position is "Left Side". We will start with having you turn onto your left side. Please make sure that everything is out of the way as you move to the right side of your bed and turn onto your left side.  
+
+[wait three minutes]
+
+>FILE=proning_1.3_checkup.dialog
+>LANG=en-us
+Have you turned onto your left side?
+>LANG=es
+¿Ha dado vuelta hacia el lado izquierdo?
+
+[yes/no]
 
 [Conversation Decision Tree to be built here, see comment]
 
-Device: Would you like us to play music for you?
- 
-Patient: yes/no
+[Would you like us to play music for you?]
 
-Wait an hour, every 15 minutes are you feeling ok
- 
-Device: Second Position is Right Side….Are you ready to turn to the right side?
- 
-Patient: yes/no
- 
-Device:  Please make sure that everything is out of the way as you move closer to the left side of bed and turn onto your right side.  
+[Wait an hour, every 15 minutes are you feeling ok]
 
-Wait three minutes
- 
-Device: Does that feel all right?
- 
+>FILE=proning_2.1_ask.dialog
+>LANG=en-us
+The second Position is "Right Side". Are you ready to turn to the right side?
+
+>FILE=proning_2.2_begin.dialog
+>LANG=en-us
+Please make sure that everything is out of the way as you move closer to the left side of bed and turn onto your right side.  
+
+[Wait three minutes]
+
+>FILE=proning_2.3_checkup.dialog
+>LANG=en-us
+Does that feel all right?
+
 Patient: yes/no
 Wait an hour, every 15 minutes: Are you feeling OK?
  
-Device: Sitting up…..It’s now time to sit up. Do you need help sitting up?
+>FILE=proning_3.1_ask.dialog
+>LANG=en-us
+It’s now time to sit up. Do you need help sitting up?
  
-Patient: yes/no
+[Patient: yes/no]
 
 [If yes, Device should say: “Please press your nurse call button and help will be on its way”]
  
-(if no) Device:  Please make sure that everything is out of the way as you move to the center of your bed and elevate the head of your bed while lying on your back.
+>FILE=proning_3.2_begin.dialog
+>LANG=en-us
+Please make sure that everything is out of the way as you move to the center of your bed and elevate the head of your bed while lying on your back.
 
-Wait 3 minutes
- 
+[Wait 3 minutes]
+
+>FILE=proning_3.3_checkup.dialog
+>LANG=en-us
 Device: Does that feel all right?
- 
-Patient: yes/no
 
-Wait an hour, every 15 minutes: Are you feeling OK?
- 
-Device: Are you ready to turn onto your stomach?
- 
-Patient: yes/no
- 
-Device:  Prone ……You will now be proning, which is laying on your stomach. Your nurse or tech will help you move into this position. They will come in to assist you shortly. We ask that you do not attempt to do this without their help.  
+[yes/no]
 
-*trigger alarm so that clinical team member can come in)
-Wait 3 minutes
- 
-Device: Does that feel all right?
- 
-Patient: yes/no
+[Wait an hour, every 15 minutes: Are you feeling OK?]
 
-Wait an hour, every 15 minutes: Are you feeling OK?
+>FILE=proning_4.1_ask.dialog
+>LANG=en-us
+Are you ready to turn onto your stomach?
+>LANG=es
+¿Está listo para voltear sobre el estómago?
+[TODO: CONFIGURE PATIENT GENDER]
 
+[yes/no]
+
+>FILE=proning_4.2_begin.dialog
+You will now be proning, which is laying on your stomach. Your nurse or tech will help you move into this position. They will come in to assist you shortly. We ask that you do not attempt to do this without their help.  
+
+[trigger alarm so that clinical team member can come in]
+
+[Wait 3 minutes]
+
+>FILE=proning_4.3_checkup.dialog
+>LANG=en-us
+Does that feel all right?
+
+[Patient: yes/no]
+
+[Wait an hour, every 15 minutes:]
+
+>FILE=proning_4.3_checkup.dialog
+>LANG=en-us
+Are you feeling OK?
+
+[
 Commands:
-1 “Stop”= stop proning protocol
-2. “ Pause”= stop proning protocol
-3.  “Repeat”= repeat instructions or last position
-4.  “Restart”= Restart protocol at the last position
-5. “Forward” or “next”= go to the next position
-6.  “Play Music”  -- connects to Spotify
- 
+1. “Stop” = stop proning protocol
+2. “Pause” = stop proning protocol
+3. “Repeat” = repeat instructions or last position
+4. “Restart” = Restart protocol at the last position
+5. “Forward” or “next” = go to the next position
+6. “Play Music” = connects to Spotify
+
 Any no answer should alert healthcare team member.
 Protocol can be restarted periodically.
+]
