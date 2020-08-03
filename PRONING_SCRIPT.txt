@@ -23,6 +23,12 @@ quiero hacer pauso, por favor diga "pausa PAL". Si en algún momento desea
 levantarse de la cama, no intente hacerlo sin la ayuda de su enfermera. Si
 desea levantarse de la cama, presione el botón para llamar a enfermería.
 
+>FILE=proning_complete.dialog
+>LANG=en-us
+The PAL proning protocol is complete.
+>LANG=es
+El proceso ha terminado.
+
 >FILE=proning_1.1_ask.dialog
 >LANG=en-us
 Are you ready for the proning protocol?    

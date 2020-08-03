@@ -102,52 +102,50 @@ class AamcCovid(MycroftSkill):
         pass # TODO: IMPLEMENT PAUSE
         self.speak_dialog("routine_pause.dialog")
 
-    def __proning_logic(self, state, position=None, arg=None):
+    def __proning_logic_sched(self, message):
+        state, position, arg = message.data
+        __proning_logic(state, position, data)
+
+    def __proning_logic(self, state, position=None, arg=None, delay=None):
+        if delay and delay > 0:
+            self.schedule_event(
+                self.__proning_logic_sched,
+                delay * 60,
+                data=(state, position, arg))
         if state is None:
             self.__proning_logic("START")
-            return
-        state, position, phase, arg = unpack_state(state_etc)
-        if state == "START":
+        elif state == "START":
             self.speak_dialog("proning_0_intro.dialog")
-            self.__proning_logic("POSITION", 1, "ASK")
-        elif state == "POSITION":
-            try:
-                arg = None
-                _, position, phase = state
-            except ValueError:
-                _, position, phase, arg = state
-            if phase == "BEGIN":
-                self.__proning_logic(["ASK", position])
-            if phase == "ASK":
-                self.speak_dialog("proning_%d.1_ask.dialog" % position)
-                # TODO: GET CHOICE
-                self.__proning_logic(["POSITION", position, "MOVE"])
-            if phase == "MOVE":
-                self.speak_dialog("proning_%d.1_ask.dialog" % position)
-                self.__proning_logic(["POSITION", position, "MOVE"])
-            if phase == "CHECKUP":
-                filename = "proning_%d.3_checkup.dialog"
-                self.speak_dialog(filename)
-                if arg < 4:
-                    self.__next_state(15, ["CHECKUP2", position, arg-1])
-                else:
-                    self.__next_state(0, ["ASK", position+1])
-            if phase == "CHECKUP2":
-                filename = "proning_%d.4_checkup2.dialog"
-                self.speak_dialog(filename)
-
-    @static
-    def unpack_state(state_etc):
-        try:
-            arg = None
-            state, position, phase = state_etc
-        except ValueError:
-            state, position, phase, arg = state_etc
-        return (state, position, phase, arg)
-
-    def __next_state(self, delay_minutes, state):
-        # TODO
-        pass
+            self.__proning_logic("ASK", 1)
+        elif state == "ASK":
+            if position > 4:
+                self.__proning_logic("COMPLETE")
+            else:
+                dialog = "proning_%d.1_ask.dialog" % position
+                self.__choice(dialog,
+                    lambda: self.__proning_logic("MOVE", position),
+                    lambda: self.__proning_logic("ASK", position, delay=1))
+        elif state == "MOVE":
+            self.speak_dialog("proning_%d.2_move.dialog" % position)
+            # TODO: Update position on server
+            self.__proning_logic("CHECKUP", position, delay=3)
+        elif state == "CHECKUP":
+            dialog = "proning_%d.3_checkup.dialog" % position
+            self.speak_dialog(dialog)
+            self.__proning_logic("CHECKUP2", position, 4, delay=15)
+        elif state == "CHECKUP2":
+            arg = arg - 1
+            if arg > 0:
+                self.__choice("proning_%d.4_checkup2.dialog" % position,
+                    lambda: self.__proning_logic("CHECKUP2", position, arg, delay=15),
+                    self.__call_nurse,
+                    self.__call_nurse)
+            else:
+                self.__proning_logic("ASK", position + 1)
+        elif state == "COMPLETE":
+            self.speak_dialog("proning_complete.dialog")
+        else:
+            self.log.error("Invalid state: " + state)
 
     def __do_nextpos_event(self, stage):
         self.log.info("__do_nextpos_event")
@@ -229,7 +227,7 @@ class AamcCovid(MycroftSkill):
         stage = message.data["stage"]
         self.__do_nextpos_event(stage)
 
-    def __choice(prompt_intent, action_if_yes, action_if_no, action_if_no_response):
+    def __choice(prompt_intent, action_if_yes, action_if_no, action_if_no_response=None):
         response = self.ask_yesno(prompt_intent)
         if response == "yes":
             if action_if_yes:
