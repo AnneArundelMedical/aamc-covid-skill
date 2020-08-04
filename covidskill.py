@@ -83,6 +83,14 @@ class AamcCovid(MycroftSkill):
     def handle_stop_routine(self, message):
         self.__pause_proning()
 
+    @intent_file_handler("call_nurse.intent")
+    def __call_nurse(self):
+        try:
+            self.messenger.call()
+        except:
+            self.log.warn("Unable to call nurse, messenger not initialized.")
+        self.speak_dialog("call_nurse")
+
     def __start_proning(self, position=1):
         #self.__do_nextpos_event(position)
         self.__proning_logic("START")

@@ -149,7 +149,7 @@ Protocol can be restarted periodically.
 
 >FILE=routine_start.intent
 >LANG=en-us
-(start pal protocol|pal protocol start)
+(start pal|start pal protocol|pal protocol start|pal start)
 
 >FILE=routine_stop.intent
 >LANG=en-us
@@ -161,5 +161,15 @@ Protocol can be restarted periodically.
 
 >FILE=routine_next.intent
 >LANG=en-us
-(pause pal protocol|pal protocol pause)
+(pause pal|pause pal protocol|pal protocol pause|pal pause)
+
+>FILE=call_nurse.intent
+>LANG=en-us
+(please|) call (a|the|) nurse
+
+>FILE=call_nurse.dialog
+>LANG=en-us
+To call a nurse, please press the "nurse call" button.
+>LANG=es
+Por favor presionar el botón para llamar a enfermería.
 
