@@ -61,7 +61,7 @@ Are you feeling OK?
 >LANG=en-us
 The second Position is "Right Side". Are you ready to turn to the right side?
 
->FILE=proning_2.2_begin.dialog
+>FILE=proning_2.2_move.dialog
 >LANG=en-us
 Please make sure that everything is out of the way as you move closer to the left side of bed and turn onto your right side.  
 
@@ -87,7 +87,7 @@ It’s now time to sit up. Do you need help sitting up?
 
 [If yes, Device should say: “Please press your nurse call button and help will be on its way”]
  
->FILE=proning_3.2_begin.dialog
+>FILE=proning_3.2_move.dialog
 >LANG=en-us
 Please make sure that everything is out of the way as you move to the center of your bed and elevate the head of your bed while lying on your back.
 
@@ -114,7 +114,7 @@ Are you ready to turn onto your stomach?
 
 [yes/no]
 
->FILE=proning_4.2_begin.dialog
+>FILE=proning_4.2_move.dialog
 >LANG=en-us
 You will now be proning, which is lying on your stomach. Your nurse or tech will help you move into this position. They will come in to assist you shortly. We ask that you do not attempt to do this without their help.  
 
