@@ -212,13 +212,13 @@ class AamcCovid(MycroftSkill):
         self.speak_dialog("proning_stage_" + str(stage))
 
     @staticmethod
-    def __calc_delay(delay_secs):
+    def _calc_delay(delay_secs):
         delay = datetime.timedelta(seconds=delay_secs)
         return now() + delay
 
     def __schedule_event(self, handler, delay_secs, event_name, freq_secs=None, data=None):
         self.log.info("__schedule_event: delay=%d, event=%s" % (delay_secs, event_name))
-        event_time = __calc_delay(delay_secs)
+        event_time = _calc_delay(delay_secs)
         # Timedelta is the wrong type for the frequency. Need to figure out how
         # to pass this correctly.
         #event_frequency = datetime.timedelta(seconds=(freq_secs or 0))

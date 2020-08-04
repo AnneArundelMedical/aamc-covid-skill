@@ -7,21 +7,11 @@
 >FILE=proning_0_intro.dialog
 >LANG=en-us
 
-Proning is changing your body position to help improve your blood oxygen levels
-and help you feel better. You will turn onto different sides of your body for
-one hour each time. If at any point in time, you want to pause, please say "PAL
-Pause".  If at any point in time you want to get out of bed, do not attempt to
-do so without the help of your nurse. If you want to get out of bed, please
-press your nurse call button.
+Proning is changing your body position to help improve your blood oxygen levels and help you feel better. You will turn onto different sides of your body for one hour each time. If at any point in time, you want to pause, please say "PAL Pause".  If at any point in time you want to get out of bed, do not attempt to do so without the help of your nurse. If you want to get out of bed, please press your nurse call button.
 
 >LANG=es
 
-Proning es cambiar la posición de su cuerpo para ameliorar el nivel de oxígeno
-en la sangre y ayudarle a sentir bien. Usted va a girararse el cuerpo a
-diferentes lados del cuerpo por una hora cada vez. Si en cualquier momento
-quiero hacer pauso, por favor diga "pausa PAL". Si en algún momento desea
-levantarse de la cama, no intente hacerlo sin la ayuda de su enfermera. Si
-desea levantarse de la cama, presione el botón para llamar a enfermería.
+Proning es cambiar la posición de su cuerpo para ameliorar el nivel de oxígeno en la sangre y ayudarle a sentir bien. Usted va a girararse el cuerpo a diferentes lados del cuerpo por una hora cada vez. Si en cualquier momento quiero hacer pauso, por favor diga "pausa PAL". Si en algún momento desea levantarse de la cama, no intente hacerlo sin la ayuda de su enfermera. Si desea levantarse de la cama, presione el botón para llamar a enfermería.
 
 >FILE=proning_complete.dialog
 >LANG=en-us
