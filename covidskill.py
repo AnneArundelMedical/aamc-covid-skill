@@ -200,7 +200,8 @@ class AamcCovid(MycroftSkill):
         #    checkin_event_frequency,
         #    name=PRONING_CHECKIN_EVENT_NAME,
         #)
-        nextpos_delay = datetime.timedelta(seconds=60) nextpos_event_time = now() + nextpos_delay
+        nextpos_delay = datetime.timedelta(seconds=60)
+        nextpos_event_time = now() + nextpos_delay
         nextpos_event_frequency = nextpos_delay
         next_stage = stage + 1
         if next_stage <= PRONING_STAGE_COUNT:
