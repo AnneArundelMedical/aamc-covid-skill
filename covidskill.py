@@ -29,8 +29,8 @@ MS_PER_SEC = 1000
 MS_PER_MIN = MS_PER_SEC * SECS_PER_MIN
 
 def now():
-    return now_local()
-    #return now_utc()
+    #return now_local()
+    return now_utc()
 
 def _calc_delay(delay_secs):
     delay = datetime.timedelta(seconds=delay_secs)
