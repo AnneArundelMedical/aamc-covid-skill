@@ -105,7 +105,7 @@ class AamcCovid(MycroftSkill):
 
     def __proning_logic_sched(self, message):
         state, position, arg = message.data
-        __proning_logic(state, position, data)
+        self.__proning_logic(state, position, data)
 
     def __proning_logic(self, state, position=None, arg=None, delay=None):
         if delay and delay > 0:
