@@ -211,7 +211,7 @@ class AamcCovid(MycroftSkill):
             #)
         self.speak_dialog("proning_stage_" + str(stage))
 
-    @static
+    @staticmethod
     def __calc_delay(delay_secs):
         delay = datetime.timedelta(seconds=delay_secs)
         return now() + delay
