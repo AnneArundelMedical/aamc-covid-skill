@@ -84,7 +84,8 @@ class AamcCovid(MycroftSkill):
         self.__pause_proning()
 
     def __start_proning(self, position=1):
-        self.__do_nextpos_event(position)
+        #self.__do_nextpos_event(position)
+        self.__proning_logic("START")
 
     def __stop_proning(self):
         try:
@@ -217,8 +218,7 @@ class AamcCovid(MycroftSkill):
         self.__choice(
             "checkin.ask",
             lambda: self.speak_dialog("checkin.needhelp"),
-            lambda: self.speak_dialog("checkin.nohelp"),
-            None)
+            lambda: self.speak_dialog("checkin.nohelp"))
 
     def __handle_nextpos_event(self, message):
         """ Repeating event handler. Check if user is OK in new position.  """
