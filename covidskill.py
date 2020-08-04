@@ -4,7 +4,8 @@ from mycroft import MycroftSkill, intent_file_handler
 from mycroft.util.time import now_local, now_utc
 from mycroft.util.log import LOG
 import datetime
-import requests, json
+import requests, json, os, os.path, sys
+import subprocess
 
 from . import messaging
 
@@ -35,6 +36,16 @@ def now():
 def _calc_delay(delay_secs):
     delay = datetime.timedelta(seconds=delay_secs)
     return now() + delay
+
+def mycroft_restart_audio_and_voice():
+    for service in ["audio", "voice"]:
+        cmd = ["mycroft-start", service, "restart"]
+        subprocess.run(cmd, stdout=os.devnull, check=True)
+
+def set_language(language):
+    cmd = ["mycroft-config", "set", "lang", language]
+    proc = subprocess.run(cmd, check=True)
+    mycroft_restart_audio_and_voice()
 
 class AamcCovid(MycroftSkill):
 
@@ -79,6 +90,14 @@ class AamcCovid(MycroftSkill):
 
     def __handle_message_stop_proning(self, message_payload):
         self.__stop_proning()
+
+    @intent_file_handler("english.intent")
+    def handle_english(self, message):
+        set_language("en-us")
+
+    @intent_file_handler("spanish.intent")
+    def handle_spanish(self, message):
+        set_language("es")
 
     @intent_file_handler("routine_start.intent")
     def handle_start_routine(self, message):

@@ -211,3 +211,19 @@ PAL protocol not in progress, unable to advance to next position.
 >LANG=es
 No en progreso.
 
+>FILE=english.intent
+>LANG=en-us
+switch to English
+habla inglés
+>LANG=es
+habla inglés
+switch to English
+
+>FILE=spanish.intent
+>LANG=en-us
+switch to spanish
+habla español
+>LANG=es
+habla español
+speak English
+
