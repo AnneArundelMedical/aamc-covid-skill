@@ -103,7 +103,7 @@ class AamcCovid(MycroftSkill):
     @intent_file_handler("repeat.intent")
     def __repeat(self):
         if self.position:
-            dialog = "proning_%d.1_ask" % position
+            dialog = "proning_%d.1_ask" % self.position
             self.speak_dialog(dialog)
         else:
             self.speak_dialog("repeat_fail")
