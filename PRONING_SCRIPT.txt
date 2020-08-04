@@ -164,3 +164,24 @@ To call a nurse, please press the "nurse call" button.
 >LANG=es
 Por favor presionar el botón para llamar a enfermería.
 
+>FILE=repeat.intent
+>LANG=en-us
+repeat
+what
+>LANG=es
+repetir
+
+>FILE=repeat_fail.dialog
+>LANG=en-us
+PAL protocol not in progress, nothing to repeat.
+>LANG=es
+No hay nada que repetir.
+
+>FILE=restart.intent
+>LANG=en-us
+restart
+>LANG=es
+reiniciar
+reinicia
+reinicie
+
