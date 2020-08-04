@@ -185,3 +185,9 @@ reiniciar
 reinicia
 reinicie
 
+>FILE=restart_fail.dialog
+>LANG=en-us
+PAL protocol not in progress, nothing to restart.
+>LANG=es
+No hay nada que reiniciar.
+
