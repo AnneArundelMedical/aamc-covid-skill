@@ -24,6 +24,10 @@ API_PASSWORD = None
 
 INIT_MESSAGING_EVENT_NAME = "aamc.covid.initmessaging"
 
+SECS_PER_MIN = 60
+MS_PER_SEC = 1000
+MS_PER_MIN = MS_PER_SEC * SECS_PER_MIN
+
 def now():
     return now_utc()
 
@@ -119,7 +123,7 @@ class AamcCovid(MycroftSkill):
         if delay and delay > 0:
             self.schedule_event(
                 self.__proning_logic_sched,
-                delay * 60,
+                delay * MS_PER_MIN,
                 data=(state, position, arg))
         if state is None:
             self.__proning_logic("START")
