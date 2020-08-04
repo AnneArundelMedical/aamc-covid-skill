@@ -157,6 +157,7 @@ class AamcCovid(MycroftSkill):
             pass
         if delay_mins and delay_mins > 0:
             self.next_proning_event = (state, position, arg)
+            self.log.info("Delay: %d minutes" % delay_mins)
             self.__schedule_event(
                 self.__proning_logic_sched,
                 delay_mins * SECS_PER_MIN,
