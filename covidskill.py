@@ -96,12 +96,12 @@ class AamcCovid(MycroftSkill):
             self.cancel_scheduled_event(PRONING_NEXTPOS_EVENT_NAME)
         except:
             pass
-        self.speak_dialog("routine_stop.dialog")
+        self.speak_dialog("routine_stop")
 
     def __pause_proning(self):
         self.__paused = True
         pass # TODO: IMPLEMENT PAUSE
-        self.speak_dialog("routine_pause.dialog")
+        self.speak_dialog("routine_pause")
 
     def __proning_logic_sched(self, message):
         state, position, arg = message.data
@@ -116,35 +116,35 @@ class AamcCovid(MycroftSkill):
         if state is None:
             self.__proning_logic("START")
         elif state == "START":
-            self.speak_dialog("proning_0_intro.dialog")
+            self.speak_dialog("proning_0_intro")
             self.__proning_logic("ASK", 1)
         elif state == "ASK":
             if position > 4:
                 self.__proning_logic("COMPLETE")
             else:
-                dialog = "proning_%d.1_ask.dialog" % position
+                dialog = "proning_%d.1_ask" % position
                 self.__choice(dialog,
                     lambda: self.__proning_logic("MOVE", position),
                     lambda: self.__proning_logic("ASK", position, delay=1))
         elif state == "MOVE":
-            self.speak_dialog("proning_%d.2_move.dialog" % position)
+            self.speak_dialog("proning_%d.2_move" % position)
             # TODO: Update position on server
             self.__proning_logic("CHECKUP", position, delay=3)
         elif state == "CHECKUP":
-            dialog = "proning_%d.3_checkup.dialog" % position
+            dialog = "proning_%d.3_checkup" % position
             self.speak_dialog(dialog)
             self.__proning_logic("CHECKUP2", position, 4, delay=15)
         elif state == "CHECKUP2":
             arg = arg - 1
             if arg > 0:
-                self.__choice("proning_%d.4_checkup2.dialog" % position,
+                self.__choice("proning_%d.4_checkup2" % position,
                     lambda: self.__proning_logic("CHECKUP2", position, arg, delay=15),
                     self.__call_nurse,
                     self.__call_nurse)
             else:
                 self.__proning_logic("ASK", position + 1)
         elif state == "COMPLETE":
-            self.speak_dialog("proning_complete.dialog")
+            self.speak_dialog("proning_complete")
         else:
             self.log.error("Invalid state: " + state)
 
