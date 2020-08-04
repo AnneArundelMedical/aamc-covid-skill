@@ -125,8 +125,8 @@ class AamcCovid(MycroftSkill):
         self.speak_dialog("routine_pause")
 
     def __proning_logic_sched(self, message):
-        state, position, arg = message.data
-        self.__proning_logic(state, position, data)
+        #state, position, arg = message.data
+        self.__proning_logic(state, position, message.data)
 
     def __proning_logic(self, state, position=None, arg=None, delay_mins=None):
         if delay_mins and delay_mins > 0:
