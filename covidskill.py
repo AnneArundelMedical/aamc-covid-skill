@@ -157,8 +157,12 @@ class AamcCovid(MycroftSkill):
             self.__proning_logic("CHECKUP", position, delay=3)
         elif state == "CHECKUP":
             dialog = "proning_%d.3_checkup" % position
-            self.speak_dialog(dialog)
-            self.__proning_logic("CHECKUP2", position, 4, delay=15)
+            #self.speak_dialog(dialog)
+            #self.__proning_logic("CHECKUP2", position, 4, delay=15)
+            self.__choice(dialog,
+                lambda: self.__proning_logic("CHECKUP2", position, 4, delay=15),
+                self.__call_nurse,
+                self.__call_nurse)
         elif state == "CHECKUP2":
             arg = arg - 1
             if arg > 0:
