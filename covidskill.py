@@ -48,10 +48,10 @@ class AamcCovid(MycroftSkill):
     def __schedule_init_messaging(self):
         """ Repeatedly attempt to set up messaging, until it succeeds. """
         self.log.info("Schedule init messaging.")
-        return self.schedule_repeating_event(
-            __init_messaging,
-            0, 15,
+        return self.__schedule_event(
+            __init_messaging, 0,
             name=INIT_MESSAGING_EVENT_NAME,
+            freq_secs=15,
         )
 
     def __init_messaging(self):
@@ -108,6 +108,10 @@ class AamcCovid(MycroftSkill):
             self.cancel_scheduled_event(PRONING_NEXTPOS_EVENT_NAME)
         except:
             pass
+        try:
+            self.cancel_scheduled_event("PRONING_LOGIC")
+        except:
+            pass
         self.speak_dialog("routine_stop")
 
     def __pause_proning(self):
@@ -121,9 +125,14 @@ class AamcCovid(MycroftSkill):
 
     def __proning_logic(self, state, position=None, arg=None, delay=None):
         if delay and delay > 0:
-            self.schedule_event(
+            try:
+                self.cancel_scheduled_event("PRONING_LOGIC")
+            except:
+                pass
+            self.__schedule_event(
                 self.__proning_logic_sched,
                 delay * MS_PER_MIN,
+                "PRONING_LOGIC",
                 data=(state, position, arg))
         if state is None:
             self.__proning_logic("START")
@@ -202,10 +211,14 @@ class AamcCovid(MycroftSkill):
             #)
         self.speak_dialog("proning_stage_" + str(stage))
 
+    @static
+    def __calc_delay(delay_secs):
+        delay = datetime.timedelta(seconds=delay_secs)
+        return now() + delay
+
     def __schedule_event(self, handler, delay_secs, event_name, freq_secs=None, data=None):
         self.log.info("__schedule_event: delay=%d, event=%s" % (delay_secs, event_name))
-        delay = datetime.timedelta(seconds=delay_secs)
-        event_time = now() + delay
+        event_time = __calc_delay(delay_secs)
         # Timedelta is the wrong type for the frequency. Need to figure out how
         # to pass this correctly.
         #event_frequency = datetime.timedelta(seconds=(freq_secs or 0))
