@@ -191,3 +191,15 @@ PAL protocol not in progress, nothing to restart.
 >LANG=es
 No hay nada que reiniciar.
 
+>FILE=next.intent
+>LANG=en-us
+next
+>LANG=es
+próximo
+
+>FILE=next_fail.dialog
+>LANG=en-us
+PAL protocol not in progress, unable to advance to next position.
+>LANG=es
+No en progreso.
+

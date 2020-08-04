@@ -115,6 +115,13 @@ class AamcCovid(MycroftSkill):
         else:
             self.speak_dialog("restart_fail")
 
+    @intent_file_handler("next.intent")
+    def __next_proning_event(self):
+        if self.next_proning_event:
+            self.__proning_logic(*self.next_proning_event)
+        else:
+            self.speak_dialog("next_fail")
+
     def __start_proning(self, position=1):
         #self.__do_nextpos_event(position)
         self.__proning_logic("START")
@@ -149,6 +156,7 @@ class AamcCovid(MycroftSkill):
         except:
             pass
         if delay_mins and delay_mins > 0:
+            self.next_proning_event = (state, position, arg)
             self.__schedule_event(
                 self.__proning_logic_sched,
                 delay_mins * SECS_PER_MIN,
