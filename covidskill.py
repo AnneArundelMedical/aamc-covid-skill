@@ -31,6 +31,10 @@ MS_PER_MIN = MS_PER_SEC * SECS_PER_MIN
 def now():
     return now_utc()
 
+def _calc_delay(delay_secs):
+    delay = datetime.timedelta(seconds=delay_secs)
+    return now() + delay
+
 class AamcCovid(MycroftSkill):
 
     def __init__(self):
@@ -210,11 +214,6 @@ class AamcCovid(MycroftSkill):
             #    data={ "stage": next_stage },
             #)
         self.speak_dialog("proning_stage_" + str(stage))
-
-    @staticmethod
-    def _calc_delay(delay_secs):
-        delay = datetime.timedelta(seconds=delay_secs)
-        return now() + delay
 
     def __schedule_event(self, handler, delay_secs, event_name, freq_secs=None, data=None):
         self.log.info("__schedule_event: delay=%d, event=%s" % (delay_secs, event_name))
