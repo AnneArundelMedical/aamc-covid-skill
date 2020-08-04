@@ -139,7 +139,8 @@ Protocol can be restarted periodically.
 
 >FILE=routine_start.intent
 >LANG=en-us
-(start pal|start paul|start p a l|start pal protocol|pal protocol start|pal start|p a l start|paul start|powell start)
+start (pal|p a l|pl|paul|protocol|proning|prawning|powell)
+(pal|p a l|pl|paul|protocol|proning|prawning|powell) start
 
 >FILE=routine_stop.intent
 >LANG=en-us
