@@ -227,7 +227,12 @@ class AamcCovid(MycroftSkill):
         stage = message.data["stage"]
         self.__do_nextpos_event(stage)
 
-    def __choice(prompt_intent, action_if_yes, action_if_no, action_if_no_response=None):
+    def __choice(self,
+         prompt_intent,
+         action_if_yes,
+         action_if_no,
+         action_if_no_response=None
+    ):
         response = self.ask_yesno(prompt_intent)
         if response == "yes":
             if action_if_yes:
