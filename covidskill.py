@@ -113,11 +113,11 @@ class AamcCovid(MycroftSkill):
 
     @intent_file_handler("call_nurse.intent")
     def __call_nurse(self):
-        try:
-            self.messenger.call()
-        except:
-            self.log.warn("Unable to call nurse, messenger not initialized.")
         self.speak_dialog("call_nurse")
+        if not self.messenger:
+            self.log.warn("Unable to call nurse, messenger not initialized.")
+        else:
+            self.messenger.call()
 
     @intent_file_handler("repeat.intent")
     def __repeat(self):
@@ -141,9 +141,18 @@ class AamcCovid(MycroftSkill):
         else:
             self.speak_dialog("next_fail")
 
-    def __start_proning(self, position=1):
+    def __update_proning_position(self, position_number):
+        if not self.messenger:
+            self.log.warn("Unable to update proning position, messenger not initialized.")
+        else:
+            self.messenger.report_proning_position(position_number)
+
+    def __start_proning(self, position=0):
         #self.__do_nextpos_event(position)
-        self.__proning_logic("START")
+        if position == 0:
+            self.__proning_logic("START")
+        else:
+            self.__proning_logic("ASK", position)
 
     def __stop_proning(self):
         try:
@@ -193,6 +202,7 @@ class AamcCovid(MycroftSkill):
                 self.__proning_logic("COMPLETE")
             else:
                 self.position = position
+                self.__update_proning_position(position)
                 dialog = "proning_%d.1_ask" % position
                 self.__choice(dialog,
                     lambda: self.__proning_logic("MOVE", position),
