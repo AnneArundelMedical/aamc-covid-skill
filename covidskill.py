@@ -23,6 +23,8 @@ API_HOST = "localhost"
 API_USERNAME = None
 API_PASSWORD = None
 
+SETTING_MESSAGE_SERVER_HOST = "message_server_host"
+
 INIT_MESSAGING_EVENT_NAME = "aamc.covid.initmessaging"
 
 SECS_PER_MIN = 60
@@ -72,8 +74,12 @@ class AamcCovid(MycroftSkill):
 
     def __init_messaging(self):
         self.log.info("Init messaging.")
+        host = self.settings.get(SETTING_MESSAGE_SERVER_HOST)
+        if not host:
+            self.log.error("Setting unset: " + SETTING_MESSAGE_SERVER_HOST)
+            return
         self.api = messaging.MessageApi(
-            API_HOST, self.config_dir,
+            host, self.config_dir,
             username=API_USERNAME, password=API_PASSWORD, log=self.log)
         self.api.add_message_handler("StartProning", self.__handle_message_start_proning)
         self.api.add_message_handler("StopProning", self.__handle_message_stop_proning)
