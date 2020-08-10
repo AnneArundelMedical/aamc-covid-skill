@@ -198,11 +198,14 @@ class AamcCovid(MycroftSkill):
                 delay_mins * SECS_PER_MIN,
                 "PRONING_LOGIC",
                 data=(state, position, arg))
+
         elif state is None:
             self.__proning_logic("START")
+
         elif state == "START":
             self.speak_dialog("proning_0_intro")
             self.__proning_logic("ASK", 1)
+
         elif state == "ASK":
             if position > 4:
                 self.position = None
@@ -214,10 +217,12 @@ class AamcCovid(MycroftSkill):
                 self.__choice(dialog,
                     lambda: self.__proning_logic("MOVE", position),
                     lambda: self.__proning_logic("ASK", position, delay_mins=1))
+
         elif state == "MOVE":
             self.speak_dialog("proning_%d.2_move" % position)
             # TODO: Update position on server
             self.__proning_logic("CHECKUP", position, delay_mins=3)
+
         elif state == "CHECKUP":
             dialog = "proning_%d.3_checkup" % position
             #self.speak_dialog(dialog)
@@ -226,6 +231,7 @@ class AamcCovid(MycroftSkill):
                 lambda: self.__proning_logic("CHECKUP2", position, 4, delay_mins=15),
                 self.__call_nurse,
                 self.__call_nurse)
+
         elif state == "CHECKUP2":
             arg = arg - 1
             if arg > 0:
@@ -235,8 +241,10 @@ class AamcCovid(MycroftSkill):
                     self.__call_nurse)
             else:
                 self.__proning_logic("ASK", position + 1)
+
         elif state == "COMPLETE":
             self.speak_dialog("proning_complete")
+
         else:
             self.log.error("Invalid state: " + state)
 
