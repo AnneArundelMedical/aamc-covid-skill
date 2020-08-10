@@ -264,12 +264,6 @@ class AamcCovid(MycroftSkill):
             10,
             PRONING_CHECKIN_EVENT_NAME,
         )
-        #self.schedule_repeating_event(
-        #    self.__handle_checkin_event,
-        #    checkin_event_time,
-        #    checkin_event_frequency,
-        #    name=PRONING_CHECKIN_EVENT_NAME,
-        #)
         nextpos_delay = datetime.timedelta(seconds=60)
         nextpos_event_time = now() + nextpos_delay
         nextpos_event_frequency = nextpos_delay
@@ -281,13 +275,6 @@ class AamcCovid(MycroftSkill):
                 PRONING_NEXTPOS_EVENT_NAME,
                 data={ "stage": next_stage },
             )
-            #self.schedule_repeating_event(
-            #    self.__handle_nextpos_event,
-            #    nextpos_event_time,
-            #    0,
-            #    name=PRONING_NEXTPOS_EVENT_NAME,
-            #    data={ "stage": next_stage },
-            #)
         self.speak_dialog("proning_stage_" + str(stage))
 
     def __schedule_event(self, handler, delay_secs, event_name, freq_secs=None, data=None):
