@@ -11,6 +11,8 @@ class MessageApi:
     def __init__(self, api_host, config_dir, username=None, password=None, log=None):
         if not api_host:
             raise Exception("API host not specified.")
+        elif log:
+            log.info("Using API host: " + api_host)
         self.__host = api_host
         self.__config_dir = config_dir
         if username and password:
