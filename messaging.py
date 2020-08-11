@@ -73,15 +73,17 @@ class MessageApi:
         return self.post("event/device", { "guid": self.guid, "ipAddress": self.ip_address })
 
     def get(self, route):
-        self.__log_info("GET URL:", route)
-        r = requests.get(self.__url(route), auth=self.__auth, verify=self.__verify)
+        url = self.__url(route)
+        self.__log_info("GET URL:", url)
+        r = requests.get(url, auth=self.__auth, verify=self.__verify)
         return self.__process_response(r)
 
     def post(self, route, args):
-        self.__log_info("POST URL:", route)
+        url = self.__url(route)
+        self.__log_info("POST URL:", url)
         self.__log_info("POST ARGS:", args)
         r = requests.post(
-            self.__url(route),
+            url,
             data=json.dumps(args),
             headers={"content-type": "application/json"},
             auth=self.__auth,
