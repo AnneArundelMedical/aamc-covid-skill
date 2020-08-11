@@ -34,11 +34,11 @@ class MessageApi:
         self.guid = self.get_guid()
         self.device_id = self.register_device()
 
-    def __log_info(self, message):
+    def __log_info(self, *message):
         if self.__log:
             self.__log.info(_format_log_message(message))
 
-    def __log_error(self, message):
+    def __log_error(self, *message):
         if self.__log:
             self.__log.error(_format_log_message(message))
 
