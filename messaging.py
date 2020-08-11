@@ -6,6 +6,14 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 TEST_HOST = "localhost:44301"
 
+def _format_log_message(message):
+    if isinstance(message, str):
+        return message
+    try:
+        return " ".join([ str(field) for field in message ])
+    except TypeError:
+        return str(message)
+
 class MessageApi:
 
     def __init__(self, api_host, config_dir, username=None, password=None, log=None):
@@ -26,9 +34,13 @@ class MessageApi:
         self.guid = self.get_guid()
         self.device_id = self.register_device()
 
+    def __log_info(self, message):
+        if self.__log:
+            self.__log.info(_format_log_message(message))
+
     def __log_error(self, message):
         if self.__log:
-            self.__log.error(message)
+            self.__log.error(_format_log_message(message))
 
     def get_ip_address(self):
         return socket.gethostbyname(socket.gethostname()) # FIXME: might not work everywhere
@@ -61,11 +73,13 @@ class MessageApi:
         return self.post("event/device", { "guid": self.guid, "ipAddress": self.ip_address })
 
     def get(self, route):
+        self.__log_info("GET URL:", route)
         r = requests.get(self.__url(route), auth=self.__auth, verify=self.__verify)
         return self.__process_response(r)
 
     def post(self, route, args):
-        print("ARGS:", args)
+        self.__log_info("POST URL:", route)
+        self.__log_info("POST ARGS:", args)
         r = requests.post(
             self.__url(route),
             data=json.dumps(args),
