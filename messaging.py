@@ -30,7 +30,7 @@ class MessageApi:
         self.__log = log
         self.__verify = False # FIXME: Configure with client cert
         self.__message_handlers = {}
-        self.ip_address = self.get_ip_address()
+        #self.ip_address = self.get_ip_address()
         self.guid = self.get_guid()
         self.device_id = self.register_device()
 
@@ -70,7 +70,10 @@ class MessageApi:
         return self.get("event/server/%d" % self.device_id)
 
     def register_device(self):
-        return self.post("event/device", { "guid": self.guid, "ipAddress": self.ip_address })
+        return self.post("event/device", {
+            "guid": self.guid,
+            #"ipAddress": self.ip_address,
+        })
 
     def get(self, route):
         url = self.__url(route)
