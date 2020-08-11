@@ -6,6 +6,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 TEST_HOST = "localhost:44301"
 
+USE_SSL = False # TODO: add to config
+
 def _format_log_message(message):
     if isinstance(message, str):
         return message
@@ -57,7 +59,8 @@ class MessageApi:
         return guid
 
     def __url(self, route):
-        return 'https://%s/api/%s' % (self.__host, route)
+        protocol = "https" if USE_SSL else "http"
+        return '%s://%s/api/%s' % (protocol, self.__host, route)
 
     def send_message(self, message_type, payload):
         self.post("event/client", {
