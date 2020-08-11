@@ -84,7 +84,7 @@ class AamcCovid(MycroftSkill):
         self.api.add_message_handler("StartProning", self.__handle_message_start_proning)
         self.api.add_message_handler("StopProning", self.__handle_message_stop_proning)
         self.messenger = None
-        self.messenger = AamcCovidMessenger(self.api)
+        self.messenger = messaging.AamcCovidMessenger(self.api)
         self.cancel_scheduled_event(INIT_MESSAGING_EVENT_NAME)
         self.log.info("Init messaging successful.")
 
