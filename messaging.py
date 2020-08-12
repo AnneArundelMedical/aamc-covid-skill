@@ -112,7 +112,10 @@ class MessageApi:
         print("poll_messages: begin")
         messages = self.receive_messages()
         for msg in messages:
-            print("poll_messages:", json.dumps(msg))
+            try:
+                self.__log_info("Message received:", json.dumps(msg))
+            except:
+                self.__log_info("Message received (unable to display)")
             mt = msg["messageType"]
             handler = self.__message_handlers.get(mt)
             if not handler:
