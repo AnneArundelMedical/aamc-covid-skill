@@ -174,7 +174,7 @@ class AamcCovid(MycroftSkill):
             self.cancel_scheduled_event("PRONING_LOGIC")
         except:
             pass
-        self.speak_dialog("routine_stop")
+        self.__proning_logic("STOP")
 
     def __pause_proning(self):
         self.__paused = True
