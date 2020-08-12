@@ -88,14 +88,14 @@ class AamcCovid(MycroftSkill):
         self.cancel_scheduled_event(INIT_MESSAGING_EVENT_NAME)
         self.log.info("Init messaging successful.")
 
-    def __handle_message_start_proning(self, message_payload):
+    def __handle_message_start_proning(self, message_type, message_payload):
         position = message_payload["position"]
         if position < 1 or position > 4:
             raise Exception("Invalid position: %d" % position)
         self.__stop_proning()
         self.__start_proning(position)
 
-    def __handle_message_stop_proning(self, message_payload):
+    def __handle_message_stop_proning(self, message_type, message_payload):
         self.__stop_proning()
 
     @intent_file_handler("english.intent")
