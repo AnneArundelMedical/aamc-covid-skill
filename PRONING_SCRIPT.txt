@@ -24,6 +24,18 @@ The PAL proning protocol is complete.
 >LANG=es
 El proceso ha terminado.
 
+>FILE=proning_checkup_ok.dialog
+>LANG=en-us
+Now that you're settled in, I will check in again in 4 minutes.
+>LANG=es
+Lo comprobaré en 4 minutos.
+
+>FILE=proning_checkup2_ok.dialog
+>LANG=en-us
+I will check up on you again in 15 minutes.
+>LANG=es
+Lo comprobaré en 15 minutos.
+
 >FILE=proning_1.1_ask.dialog
 >LANG=en-us
 Are you ready for the proning protocol?    

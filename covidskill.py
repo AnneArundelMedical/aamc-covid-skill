@@ -13,6 +13,7 @@ PRONING_STAGE_COUNT = 4
 PRONING_CHECKIN_DELAY_MINS = 15
 PRONING_CHECKIN_EVENT_NAME = "aamc.covid.checkin"
 PRONING_NEXTPOS_EVENT_NAME = "aamc.covid.nextpos"
+PRONING_CHECKIN_ITERATION_COUNT = 4
 
 POLL_EVENTS_FREQUENCY_SECS = 15
 POLL_EVENTS_EVENT_NAME = "aamc.covid.pollevents"
@@ -233,19 +234,27 @@ class AamcCovid(MycroftSkill):
             #self.speak_dialog(dialog)
             #self.__proning_logic("CHECKUP2", position, 4, delay_mins=15)
             self.__choice(dialog,
-                lambda: self.__proning_logic("CHECKUP2", position, 4, delay_mins=15),
+                lambda: self.__proning_logic("CHECKUP_OK", position),
                 self.__call_nurse,
                 self.__call_nurse)
 
+        elif state == "CHECKUP_OK":
+            self.speak_dialog("proning_checkup_ok")
+            self.__proning_logic("CHECKUP2", position, PRONING_CHECKIN_ITERATION_COUNT, delay_mins=15),
+
         elif state == "CHECKUP2":
-            arg = arg - 1
-            if arg > 0:
+            iteration_count = arg - 1
+            if iteration_count > 0:
                 self.__choice("proning_%d.4_checkup2" % position,
-                    lambda: self.__proning_logic("CHECKUP2", position, arg, delay_mins=15),
+                    lambda: self.__proning_logic("CHECKUP2_OK", position, iteration_count),
                     self.__call_nurse,
                     self.__call_nurse)
             else:
                 self.__proning_logic("ASK", position + 1)
+
+        elif state == "CHECKUP2_OK":
+            self.speak_dialog("proning_checkup2_ok")
+            self.__proning_logic("CHECKUP2", position, arg, delay_mins=15),
 
         elif state == "COMPLETE":
             self.speak_dialog("proning_complete")
