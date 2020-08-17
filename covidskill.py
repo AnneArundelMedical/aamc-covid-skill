@@ -54,6 +54,7 @@ class AamcCovid(MycroftSkill):
 
     def __init__(self):
         MycroftSkill.__init__(self)
+        self.messenger = None
 
     def initialize(self):
         try:
@@ -84,7 +85,6 @@ class AamcCovid(MycroftSkill):
             username=API_USERNAME, password=API_PASSWORD, log=self.log)
         self.api.add_message_handler("StartProning", self.__handle_message_start_proning)
         self.api.add_message_handler("StopProning", self.__handle_message_stop_proning)
-        self.messenger = None
         self.messenger = messaging.AamcCovidMessenger(self.api)
         self.cancel_scheduled_event(INIT_MESSAGING_EVENT_NAME)
         self.log.info("Init messaging successful.")
