@@ -26,12 +26,6 @@ El proceso ha terminado.
 
 >FILE=proning_checkup_ok.dialog
 >LANG=en-us
-Now that you're settled in, I will check in again in 4 minutes.
->LANG=es
-Lo comprobaré en 4 minutos.
-
->FILE=proning_checkup2_ok.dialog
->LANG=en-us
 I will check up on you again in 15 minutes.
 >LANG=es
 Lo comprobaré en 15 minutos.
@@ -42,7 +36,7 @@ Are you ready for the proning protocol?
 
 >FILE=proning_1.2_move.dialog
 >LANG=en-us
-First position is "Left Side". We will start with having you turn onto your left side. Please make sure that everything is out of the way as you move to the right side of your bed and turn onto your left side.  
+First position is "Left Side". We will start with having you turn onto your left side. Please make sure that everything is out of the way as you move to the right side of your bed and turn onto your left side. I will check up on you in three minutes.
 
 [wait three minutes]
 
