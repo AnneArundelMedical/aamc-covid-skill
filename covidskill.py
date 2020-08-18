@@ -230,7 +230,7 @@ class AamcCovid(MycroftSkill):
             self.speak_dialog("proning_0_intro")
             self.__proning_logic("ASK", 1)
 
-        elif state = "PAUSE":
+        elif state == "PAUSE":
             self.speak_dialog("proning_0_pause")
             # The routine pauses because there's no next step triggered here.
 
