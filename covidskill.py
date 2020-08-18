@@ -234,7 +234,7 @@ class AamcCovid(MycroftSkill):
             self.speak_dialog("proning_0_pause")
             # The routine pauses because there's no next step triggered here.
 
-        elif state = "RESUME":
+        elif state == "RESUME":
             if not self.position:
                 self.speak_dialog("proning_0_resume_no_position")
             else:
