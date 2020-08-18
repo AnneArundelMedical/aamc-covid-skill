@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # vim: et ts=8 sts=4 sw=4
 from mycroft import MycroftSkill, intent_file_handler
+from mycroft.skills.audioservice import AudioService
 from mycroft.util.time import now_local, now_utc
 from mycroft.util.log import LOG
 import datetime
@@ -32,6 +33,10 @@ SECS_PER_MIN = 60
 MS_PER_SEC = 1000
 MS_PER_MIN = MS_PER_SEC * SECS_PER_MIN
 
+MUSIC_URLS = [
+    "http://ks.imslp.info/files/imglnks/usimg/2/28/IMSLP270843-PMLP15427-dso20120512-005-mahler-symphony-no1-mvtI-langsam-schleppend.mp3",
+]
+
 def now():
     #return now_local()
     return now_utc()
@@ -55,8 +60,10 @@ class AamcCovid(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
         self.messenger = None
+        self.audio_service = None
 
     def initialize(self):
+        self.audio_service = AudioService(self.bus)
         try:
             #self.log.info("self.file_system: " + json.dumps(self.file_system))
             self.config_dir = self.file_system.path
@@ -354,4 +361,9 @@ class AamcCovid(MycroftSkill):
     def __handle_poll_events(self, message):
         if self.messenger:
             events = self.messenger.poll()
+
+    @intent_file_handler("playmusic.intent")
+    def play_music(self):
+        url = random.choice(MUSIC_URLS)
+        self.audio_service.play(url)
 

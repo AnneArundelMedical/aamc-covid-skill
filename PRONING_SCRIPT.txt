@@ -233,3 +233,9 @@ habla español
 habla español
 speak English
 
+>FILE=playmusic.intent
+>LANG=en-us
+pal play music
+>LANG=es
+pal juega música
+
