@@ -367,3 +367,7 @@ class AamcCovid(MycroftSkill):
         url = random.choice(MUSIC_URLS)
         self.audio_service.play(url)
 
+    @intent_file_handler("stopmusic.intent")
+    def stop_music(self):
+        self.audio_service.stop()
+

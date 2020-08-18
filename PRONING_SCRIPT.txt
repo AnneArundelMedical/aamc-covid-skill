@@ -239,3 +239,9 @@ pal play music
 >LANG=es
 pal juega música
 
+>FILE=stopmusic.intent
+>LANG=en-us
+pal stop music
+>LANG=es
+pal detener (la|) música
+
