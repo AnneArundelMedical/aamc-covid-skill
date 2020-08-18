@@ -63,6 +63,7 @@ class AamcCovid(MycroftSkill):
         MycroftSkill.__init__(self)
         self.messenger = None
         self.audio_service = None
+        self.position = None
 
     def initialize(self):
         self.audio_service = AudioService(self.bus)
@@ -234,8 +235,11 @@ class AamcCovid(MycroftSkill):
             # The routine pauses because there's no next step triggered here.
 
         elif state = "RESUME":
-            self.speak_dialog("proning_0_resume")
-            self.__proning_logic("ASK", self.position)
+            if not self.position:
+                self.speak_dialog("proning_0_resume_no_position")
+            else:
+                self.speak_dialog("proning_0_resume")
+                self.__proning_logic("ASK", self.position)
 
         elif state == "ASK":
             if position > 4:

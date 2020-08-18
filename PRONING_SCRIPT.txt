@@ -46,6 +46,10 @@ Pausing the proning protocol. Please say "pal resume" to continue.
 >LANG=en-us
 Resuming the proning protocol.
 
+>FILE=proning_0_resume_no_position
+>LANG=en-us
+The proning protocol has not been started, so I can't resume it.
+
 >FILE=proning_1.1_ask.dialog
 >LANG=en-us
 Are you ready for the proning protocol?    
