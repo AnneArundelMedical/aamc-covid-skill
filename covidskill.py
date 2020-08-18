@@ -5,7 +5,7 @@ from mycroft.skills.audioservice import AudioService
 from mycroft.util.time import now_local, now_utc
 from mycroft.util.log import LOG
 import datetime
-import requests, json, os, os.path, sys
+import requests, json, os, os.path, sys, random
 import subprocess
 
 from . import messaging
