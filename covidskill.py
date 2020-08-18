@@ -158,6 +158,14 @@ class AamcCovid(MycroftSkill):
         else:
             self.speak_dialog("next_fail")
 
+    @intent_file_handler("proning_0_pause.intent")
+    def __pause(self):
+        self.__proning_logic("PAUSE")
+
+    @intent_file_handler("proning_0_resume.intent")
+    def __resume(self):
+        self.__proning_logic("RESUME")
+
     def __update_proning_position(self, position_number):
         if not self.messenger:
             self.log.warn("Unable to update proning position, messenger not initialized.")
@@ -220,6 +228,14 @@ class AamcCovid(MycroftSkill):
         elif state == "START":
             self.speak_dialog("proning_0_intro")
             self.__proning_logic("ASK", 1)
+
+        elif state = "PAUSE":
+            self.speak_dialog("proning_0_pause")
+            # The routine pauses because there's no next step triggered here.
+
+        elif state = "RESUME":
+            self.speak_dialog("proning_0_resume")
+            self.__proning_logic("ASK", self.position)
 
         elif state == "ASK":
             if position > 4:

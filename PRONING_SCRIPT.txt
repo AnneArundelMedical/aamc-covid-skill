@@ -30,6 +30,22 @@ I will check up on you again in 15 minutes.
 >LANG=es
 Lo comprobaré en 15 minutos.
 
+>FILE=proning_0_pause.intent
+>LANG=en-us
+(pal|paul) pause
+
+>FILE=proning_0_pause.dialog
+>LANG=en-us
+Pausing the proning protocol. Please say "pal resume" to continue.
+
+>FILE=proning_0_resume.intent
+>LANG=en-us
+(pal|paul) resume
+
+>FILE=proning_0_resume.dialog
+>LANG=en-us
+Resuming the proning protocol.
+
 >FILE=proning_1.1_ask.dialog
 >LANG=en-us
 Are you ready for the proning protocol?    
