@@ -35,6 +35,8 @@ MS_PER_MIN = MS_PER_SEC * SECS_PER_MIN
 
 MUSIC_URLS = [
     "http://ks.imslp.info/files/imglnks/usimg/2/28/IMSLP270843-PMLP15427-dso20120512-005-mahler-symphony-no1-mvtI-langsam-schleppend.mp3",
+    "http://ks4.imslp.net/files/imglnks/usimg/a/ad/IMSLP93754-PMLP08063-mahler_symphony5.mp3",
+    "http://ks.imslp.info/files/imglnks/usimg/2/2a/IMSLP484062-PMLP01607-beethoven-9-01-concertgebouw-klemperer-1956-16048.mp3",
 ]
 
 def now():
