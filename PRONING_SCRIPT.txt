@@ -56,7 +56,9 @@ Are you ready for the proning protocol?
 
 >FILE=proning_1.2_move.dialog
 >LANG=en-us
-First position is "Left Side". We will start with having you turn onto your left side. Please make sure that everything is out of the way as you move to the right side of your bed and turn onto your left side. I will check up on you in three minutes.
+You will now be proning, which is lying on your stomach. Your nurse or tech will help you move into this position. They will come in to assist you shortly. We ask that you do not attempt to do this without their help.  
+
+[trigger alarm so that clinical team member can come in]
 
 [wait three minutes]
 
@@ -102,12 +104,13 @@ Are you feeling OK?
 
 >FILE=proning_3.1_ask.dialog
 >LANG=en-us
+>EXPECTED=no
 It’s now time to sit up. Do you need help sitting up?
 
 [Patient: yes/no]
 
 [If yes, Device should say: “Please press your nurse call button and help will be on its way”]
- 
+
 >FILE=proning_3.2_move.dialog
 >LANG=en-us
 Please make sure that everything is out of the way as you move to the center of your bed and elevate the head of your bed while lying on your back.
@@ -137,9 +140,7 @@ Are you ready to turn onto your stomach?
 
 >FILE=proning_4.2_move.dialog
 >LANG=en-us
-You will now be proning, which is lying on your stomach. Your nurse or tech will help you move into this position. They will come in to assist you shortly. We ask that you do not attempt to do this without their help.  
-
-[trigger alarm so that clinical team member can come in]
+The next position is "Left Side". We will have you turn onto your left side. Please make sure that everything is out of the way as you move to the right side of your bed and turn onto your left side. I will check up on you in three minutes.
 
 [Wait 3 minutes]
 

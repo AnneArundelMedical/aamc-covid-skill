@@ -34,8 +34,10 @@ def generate(source_path):
                     language = None
                 elif cmd == "LANG":
                     language = arg
+                elif cmd == "EXPECTED":
+                    pass # ignore for now
                 else:
-                    raise Exception("Invalid command: " + cmd, file=sys.stderr)
+                    raise Exception("Invalid command: " + cmd)
                 write_file(old_filename, old_language, content_lines)
                 content_lines = []
             else:

@@ -47,6 +47,13 @@ def _calc_delay(delay_secs):
     delay = datetime.timedelta(seconds=delay_secs)
     return now() + delay
 
+def mycroft_restart_all():
+    cmd = ["which", "mycroft-start"]
+    exe_path = subprocess.check_output(cmd).decode().rstrip()
+    pid = os.fork("")
+    if pid == 0:
+        os.execl(exe_path, "all", "restart")
+
 def mycroft_restart_audio_and_voice():
     for service in ["audio", "voice"]:
         cmd = ["mycroft-start", service, "restart"]
@@ -359,7 +366,11 @@ class AamcCovid(MycroftSkill):
          action_if_no,
          action_if_no_response=None
     ):
-        response = self.ask_yesno(prompt_intent)
+        response = self.get_response(
+            dialog=prompt_intent,
+            #validator=lambda u: return u in ["yes"]
+        )
+        #response = self.ask_yesno(prompt_intent)
         if response == "yes":
             if action_if_yes:
                 action_if_yes()
