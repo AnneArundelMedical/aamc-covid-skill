@@ -366,11 +366,9 @@ class AamcCovid(MycroftSkill):
          action_if_no,
          action_if_no_response=None
     ):
-        response = self.get_response(
-            dialog=prompt_intent,
-            #validator=lambda u: return u in ["yes"]
-        )
-        #response = self.ask_yesno(prompt_intent)
+        #response = self.get_response(prompt_intent)
+        #validator=lambda u: return u in ["yes"]
+        response = self.ask_yesno(prompt_intent)
         if response == "yes":
             if action_if_yes:
                 action_if_yes()
