@@ -140,6 +140,10 @@ class AamcCovidMessenger:
     def report_proning_position(self, position_number: int):
         self.api.send_message("ReportProning", { "position": position_number })
 
+    def report_proning_state(self, state, position_number: int, args={}):
+        payload = { "state": state, "position": position_number, "args": args }
+        self.api.send_message("ReportProningState", payload)
+
     def call_nurse(self):
         self.api.send_message("CallNurse", {})
 

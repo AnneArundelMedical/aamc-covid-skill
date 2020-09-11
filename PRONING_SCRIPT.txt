@@ -41,6 +41,7 @@ Pausing the proning protocol. Please say "pal resume" to continue.
 >FILE=proning_0_resume.intent
 >LANG=en-us
 (pal|paul) resume
+(pal|paul) unpause
 
 >FILE=proning_0_resume.dialog
 >LANG=en-us
@@ -225,6 +226,26 @@ reinicie
 PAL protocol not in progress, nothing to restart.
 >LANG=es
 No hay nada que reiniciar.
+
+>FILE=continue.intent
+>LANG=en-us
+continue
+>LANG=es
+continuar
+seguir
+sigue
+
+>FILE=continue_fail.dialog
+>LANG=en-us
+PAL protocol not in progress, unable to continue.
+>LANG=es
+No en progreso.
+
+>FILE=continue_invalid.dialog
+>LANG=en-us
+Unable to continue.
+>LANG=es
+No se puede seguir.
 
 >FILE=next.intent
 >LANG=en-us

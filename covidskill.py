@@ -68,9 +68,13 @@ class AamcCovid(MycroftSkill):
 
     def __init__(self):
         MycroftSkill.__init__(self)
+        # Initialize these properties so that referencing them before
+        # assignment doesn't throw an exception.
         self.messenger = None
         self.audio_service = None
         self.position = None
+        self.next_proning_event = None
+        self.proning_logic_state = [None, None, None]
 
     def initialize(self):
         self.audio_service = AudioService(self.bus)
@@ -159,6 +163,16 @@ class AamcCovid(MycroftSkill):
         else:
             self.speak_dialog("restart_fail")
 
+    @intent_file_handler("continue.intent")
+    def __continue_proning(self):
+        state, position, arg = self.proning_logic_state
+        if not self.next_proning_event:
+            self.speak_dialog("continue_fail")
+        elif state == "ASK":
+            self.__proning_logic("MOVE", position)
+        else:
+            self.speak_dialog("continue_invalid")
+
     @intent_file_handler("next.intent")
     def __next_proning_event(self):
         if self.next_proning_event:
@@ -212,20 +226,29 @@ class AamcCovid(MycroftSkill):
         self.__proning_logic(state, position, arg)
 
     def __proning_logic(self, state, position=None, arg=None, delay_mins=None):
+
         try:
             self.cancel_scheduled_event("PRONING_LOGIC")
         except:
             pass
+
+        args_tuple = (state, position, arg)
+
         if delay_mins and delay_mins > 0:
-            self.next_proning_event = (state, position, arg)
+            self.next_proning_event = args_tuple
             self.log.info("Delay: %d minutes" % delay_mins)
             self.__schedule_event(
                 self.__proning_logic_sched,
                 delay_mins * SECS_PER_MIN,
                 "PRONING_LOGIC",
                 data=(state, position, arg))
+            return
 
-        elif state is None:
+        #old_state, old_position, old_arg = self.proning_logic_state
+        self.proning_logic_state = args_tuple
+        self.messenger.report_proning_state(*args_tuple)
+
+        if state is None:
             self.__proning_logic("START")
 
         elif state == "STOP":
@@ -290,6 +313,8 @@ class AamcCovid(MycroftSkill):
                 self.__proning_logic("ASK", position + 1)
 
         elif state == "COMPLETE":
+            self.position = None
+            self.__update_proning_position(0)
             self.speak_dialog("proning_complete")
 
         else:
@@ -364,7 +389,8 @@ class AamcCovid(MycroftSkill):
          prompt_intent,
          action_if_yes,
          action_if_no,
-         action_if_no_response=None
+         action_if_no_response=None,
+         action_if_continue=None,
     ):
         #response = self.get_response(prompt_intent)
         #validator=lambda u: return u in ["yes"]
