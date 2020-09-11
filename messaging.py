@@ -126,8 +126,7 @@ class MessageApi:
                 self.mark_message_complete(msg["messageId"])
             except Exception as e:
                 self.__log_error("ERROR HANDLING MESSAGE: " + json.dumps(msg))
-                self.__log_error(e)
-                traceback.print_exc()
+                self.__log_error(traceback.format_exc())
 
     def mark_message_complete(self, message_id):
         return self.post("event/server/%d/%d/complete" % (self.device_id, message_id), {})
