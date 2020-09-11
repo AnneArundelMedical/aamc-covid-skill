@@ -246,7 +246,7 @@ class AamcCovid(MycroftSkill):
 
         #old_state, old_position, old_arg = self.proning_logic_state
         self.proning_logic_state = args_tuple
-        self.messenger.report_proning_state(*args_tuple)
+        #self.messenger.report_proning_state(*args_tuple)
 
         if state is None:
             self.__proning_logic("START")
