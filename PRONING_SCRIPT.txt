@@ -132,9 +132,9 @@ Are you feeling OK?
 
 >FILE=proning_4.1_ask.dialog
 >LANG=en-us
-Are you ready to turn onto your stomach?
+Are you ready to turn onto your left side?
 >LANG=es
-¿Está listo para voltear sobre el estómago?
+¿Está listo para voltear hacia el lado izquierdo?
 [TODO: CONFIGURE PATIENT GENDER]
 
 [yes/no]
@@ -147,7 +147,9 @@ The next position is "Left Side". We will have you turn onto your left side. Ple
 
 >FILE=proning_4.3_checkup.dialog
 >LANG=en-us
-Does that feel all right?
+Have you turned onto your left side?
+>LANG=es
+¿Ha dado vuelta hacia el lado izquierdo?
 
 [Patient: yes/no]
 
