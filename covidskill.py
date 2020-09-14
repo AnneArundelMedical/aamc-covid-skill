@@ -5,7 +5,7 @@ from mycroft.skills.audioservice import AudioService
 from mycroft.util.time import now_local, now_utc
 from mycroft.util.log import LOG
 import datetime
-import requests, json, os, os.path, sys, random
+import requests, json, os, os.path, sys, random, inspect
 import subprocess
 
 from . import messaging
@@ -65,8 +65,10 @@ def set_language(language):
     mycroft_restart_audio_and_voice()
 
 def load_file_params(filename):
-    with open("file_params.json") as f:
-        json.read(f)
+    directory = os.path.dirname(__file__)
+    params_path = os.path.join(directory, "file_params.json")
+    with open(params_path) as f:
+        file_params = json.load(f)
         return file_params[filename]
 
 class AamcCovid(MycroftSkill):
