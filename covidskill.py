@@ -64,6 +64,11 @@ def set_language(language):
     proc = subprocess.run(cmd, check=True)
     mycroft_restart_audio_and_voice()
 
+def load_file_params(filename):
+    with open("file_params.json") as f:
+        json.read(f)
+        return file_params[filename]
+
 class AamcCovid(MycroftSkill):
 
     def __init__(self):
@@ -279,7 +284,7 @@ class AamcCovid(MycroftSkill):
                 self.position = position
                 self.__update_proning_position(position)
                 dialog = "proning_%d.1_ask" % position
-                params = load_file_params(dialog)
+                params = load_file_params(dialog + ".dialog")
                 on_yes = lambda: self.__proning_logic("MOVE", position)
                 on_no = lambda: self.__proning_logic("ASK", position, delay_mins=1)
                 if params.get("EXPECTED") == "no":
