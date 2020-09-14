@@ -69,7 +69,7 @@ def load_file_params(filename):
     params_path = os.path.join(directory, "file_params.json")
     with open(params_path) as f:
         file_params = json.load(f)
-        return file_params[filename]
+        return file_params.get(filename)
 
 class AamcCovid(MycroftSkill):
 
@@ -289,7 +289,7 @@ class AamcCovid(MycroftSkill):
                 params = load_file_params(dialog + ".dialog")
                 on_yes = lambda: self.__proning_logic("MOVE", position)
                 on_no = lambda: self.__proning_logic("ASK", position, delay_mins=1)
-                if params.get("EXPECTED") == "no":
+                if params and params.get("EXPECTED") == "no":
                     on_yes, on_no = on_no, on_yes # Expect "no" as the "affirmative" response
                 self.__choice(dialog, on_yes, on_no)
 
