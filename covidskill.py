@@ -84,6 +84,7 @@ class AamcCovid(MycroftSkill):
         self.audio_service = None
         self.position = None
         self.next_proning_event = None
+        self.choice_pending = None
         self.proning_logic_state = [None, None, None]
 
     def initialize(self):
