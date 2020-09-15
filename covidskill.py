@@ -300,9 +300,10 @@ class AamcCovid(MycroftSkill):
                 params = load_file_params(dialog + ".dialog")
                 on_yes = lambda: self.__proning_logic("MOVE", position)
                 on_no = lambda: self.__proning_logic("ASK", position, delay_mins=1)
+                on_timeout = on_no # TODO: limit repeats
                 if params and params.get("EXPECTED") == "no":
                     on_yes, on_no = on_no, on_yes # Expect "no" as the "affirmative" response
-                self.__choice(dialog, on_yes, on_no)
+                self.__choice(dialog, on_yes, on_no, on_timeout)
 
         elif state == "MOVE":
             self.speak_dialog("proning_%d.2_move" % position)
