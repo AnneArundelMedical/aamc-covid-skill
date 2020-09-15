@@ -289,3 +289,18 @@ pal stop music
 >LANG=es
 pal detener (la|) música
 
+>FILE=choice_yes.intent
+>LANG=en-us
+affirmative
+>LANG=es
+affirmativo
+
+>FILE=choice_no.intent
+>LANG=en-us
+negative
+>LANG=es
+negativo
+
+>FILE=choice_none_active.dialog
+>LANG=en-us
+Error, no choice active.
