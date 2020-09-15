@@ -304,3 +304,8 @@ negativo
 >FILE=choice_none_active.dialog
 >LANG=en-us
 Error, no choice active.
+
+>FILE=routine_stop.dialog
+>LANG=en-us
+Proning sequence halted.
+
