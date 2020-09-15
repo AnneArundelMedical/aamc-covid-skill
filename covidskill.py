@@ -25,6 +25,9 @@ API_HOST = "localhost"
 API_USERNAME = None
 API_PASSWORD = None
 
+CHOICE_TIMEOUT_EVENT_NAME = "aamc.covid.choicetimeout"
+CHOICE_TIMEOUT_DELAY_SECS = 90
+
 SETTING_MESSAGE_SERVER_HOST = "message_server_host"
 
 INIT_MESSAGING_EVENT_NAME = "aamc.covid.initmessaging"
@@ -126,6 +129,14 @@ class AamcCovid(MycroftSkill):
 
     def __handle_message_stop_proning(self, message_type, message_payload):
         self.__stop_proning()
+
+    @intent_file_handler("choice_yes.intent")
+    def handle_choice_yes(self, message):
+        self.__handle_choice_response("YES")
+
+    @intent_file_handler("choice_no.intent")
+    def handle_choice_no(self, message):
+        self.__handle_choice_response("NO")
 
     @intent_file_handler("english.intent")
     def handle_english(self, message):
@@ -399,23 +410,48 @@ class AamcCovid(MycroftSkill):
          prompt_intent,
          action_if_yes,
          action_if_no,
-         action_if_no_response=None,
-         action_if_continue=None,
+         action_if_timeout,
     ):
-        #response = self.get_response(prompt_intent)
-        #validator=lambda u: return u in ["yes"]
-        response = self.ask_yesno(prompt_intent)
-        if response == "yes":
-            if action_if_yes:
-                action_if_yes()
-        elif response == "no":
-            if action_if_no:
-                action_if_no()
-        elif not response:
-            if action_if_no_response:
-                action_if_no_response()
+        if self.choice_pending:
+            self.log.error("Started a new choice while another choice is pending. Old choice: " + json.dumps(self.choice_pending))
+        self.__cancel_choice()
+        self.choice_pending = {
+            "prompt": prompt_intent,
+            "on_yes": action_if_yes,
+            "on_no": action_if_no,
+            "on_timeout": action_if_timeout,
+        }
+        self.__schedule_event(
+            __handle_choice_timeout, CHOICE_TIMEOUT_DELAY_SECS, CHOICE_TIMEOUT_EVENT_NAME,
+            data={ id: rand.randint(1, 1000000) })
+
+    def __cancel_choice(self):
+        self.cancel_scheduled_event(CHOICE_TIMEOUT_EVENT_NAME)
+        self.choice_pending = None
+
+    def __handle_choice_response(self, response):
+        choice_pending = self.choice_pending
+        if not choice_pending:
+            self.log.error("Received choice response with no active choice: " + response)
+            self.speak_dialog("choice_none_active")
+            return
+        self.__cancel_choice()
+        if response == "YES":
+            choice_pending["on_yes"]()
+        elif response == "NO":
+            choice_pending["on_no"]()
         else:
-            self.log.error("Unrecognized response to ask_yesno: '%s'" % response)
+            self.log.error("Invalid response to choice '%s': '%s'"
+                           % (choice_pending["prompt"], response))
+
+    def __handle_choice_timeout(self, message):
+        choice_pending = self.choice_pending
+        self.__cancel_choice()
+        if not choice_pending:
+            return # timeout is now irrelevant
+        if choice_pending["id"] != message.data["id"]:
+            return # this timeout is for a different choice instance
+        choice_pending["on_timeout"]()
 
     def schedule_poll_events(self):
         self.schedule_repeating_event(
