@@ -433,7 +433,7 @@ class AamcCovid(MycroftSkill):
             "on_timeout": action_if_timeout,
         }
         self.__schedule_event(
-            __handle_choice_timeout, CHOICE_TIMEOUT_DELAY_SECS, CHOICE_TIMEOUT_EVENT_NAME,
+            handle_choice_timeout, CHOICE_TIMEOUT_DELAY_SECS, CHOICE_TIMEOUT_EVENT_NAME,
             data={ id: rand.randint(1, 1000000) })
 
     def __cancel_choice(self):
@@ -455,7 +455,7 @@ class AamcCovid(MycroftSkill):
             self.log.error("Invalid response to choice '%s': '%s'"
                            % (choice_pending["prompt"], response))
 
-    def __handle_choice_timeout(self, message):
+    def handle_choice_timeout(self, message):
         choice_pending = self.choice_pending
         self.__cancel_choice()
         if not choice_pending:
