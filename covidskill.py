@@ -434,7 +434,7 @@ class AamcCovid(MycroftSkill):
         }
         self.__schedule_event(
             self.handle_choice_timeout, CHOICE_TIMEOUT_DELAY_SECS, CHOICE_TIMEOUT_EVENT_NAME,
-            data={ id: rand.randint(1, 1000000) })
+            data={ id: random.randint(1, 1000000) })
 
     def __cancel_choice(self):
         self.cancel_scheduled_event(CHOICE_TIMEOUT_EVENT_NAME)
