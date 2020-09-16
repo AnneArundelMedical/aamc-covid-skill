@@ -75,6 +75,8 @@ def load_file_params(filename):
         return file_params.get(filename)
 
 def render(value):
+    if value is None:
+        return "(None)"
     try:
         return json.dumps(self.choice_pending)
     except:
