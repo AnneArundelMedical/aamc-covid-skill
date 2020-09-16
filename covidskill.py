@@ -74,6 +74,15 @@ def load_file_params(filename):
         file_params = json.load(f)
         return file_params.get(filename)
 
+def render(value):
+    try:
+        return json.dumps(self.choice_pending)
+    except:
+        try:
+            return self.choice_pending.repr()
+        except:
+            return "<unable to render>"
+
 class AamcCovid(MycroftSkill):
 
     def __init__(self):
@@ -415,7 +424,7 @@ class AamcCovid(MycroftSkill):
          action_if_timeout,
     ):
         if self.choice_pending:
-            self.log.error("Started a new choice while another choice is pending. Old choice: " + json.dumps(self.choice_pending))
+            self.log.error("Started a new choice while another choice is pending. Old choice: " + render(self.choice_pending))
         self.__cancel_choice()
         self.choice_pending = {
             "prompt": prompt_intent,
