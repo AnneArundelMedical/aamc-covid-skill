@@ -447,6 +447,7 @@ class AamcCovid(MycroftSkill):
         self.choice_pending = None
 
     def __handle_choice_response(self, response):
+        self.log.info("Received choice response: " + response)
         choice_pending = self.choice_pending
         if not choice_pending:
             self.log.error("Received choice response with no active choice: " + response)
