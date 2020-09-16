@@ -455,8 +455,10 @@ class AamcCovid(MycroftSkill):
             return
         self.__cancel_choice()
         if response == "YES":
+            self.log.info("Response to choice YES.")
             choice_pending["on_yes"]()
         elif response == "NO":
+            self.log.info("Response to choice NO.")
             choice_pending["on_no"]()
         else:
             self.log.error("Invalid response to choice '%s': '%s'"
