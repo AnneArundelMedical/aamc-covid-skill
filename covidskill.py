@@ -437,7 +437,7 @@ class AamcCovid(MycroftSkill):
             raise Exception("Random int is not an int.")
         self.__schedule_event(
             self.handle_choice_timeout, CHOICE_TIMEOUT_DELAY_SECS, CHOICE_TIMEOUT_EVENT_NAME,
-            data={ id: choice_id })
+            data={ "id": choice_id })
 
     def __cancel_choice(self):
         self.cancel_scheduled_event(CHOICE_TIMEOUT_EVENT_NAME)
