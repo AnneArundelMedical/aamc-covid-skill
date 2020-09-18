@@ -40,12 +40,6 @@ SECS_PER_MIN = 60
 MS_PER_SEC = 1000
 MS_PER_MIN = MS_PER_SEC * SECS_PER_MIN
 
-MUSIC_URLS = [
-    "http://ks.imslp.info/files/imglnks/usimg/2/28/IMSLP270843-PMLP15427-dso20120512-005-mahler-symphony-no1-mvtI-langsam-schleppend.mp3",
-    "http://ks4.imslp.net/files/imglnks/usimg/a/ad/IMSLP93754-PMLP08063-mahler_symphony5.mp3",
-    "http://ks.imslp.info/files/imglnks/usimg/2/2a/IMSLP484062-PMLP01607-beethoven-9-01-concertgebouw-klemperer-1956-16048.mp3",
-]
-
 def now():
     #return now_local()
     return now_utc()
@@ -314,7 +308,7 @@ class AamcCovid(MycroftSkill):
 
         elif state == "CHECKUP":
             self.speak_dialog("proning_%d.3_checkup" % position)
-            self.__proning_logic("CHECKUP2", position, 3, delay_mins=15)
+            self.__proning_logic("CHECKUP2", position, 4, delay_mins=15)
 
         elif state == "CHECKUP2":
             self.stop_music()
