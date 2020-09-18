@@ -24,12 +24,6 @@ The PAL proning protocol is complete.
 >LANG=es
 El proceso ha terminado.
 
->FILE=proning_checkup_ok.dialog
->LANG=en-us
-I will check up on you again in 15 minutes.
->LANG=es
-Lo comprobaré en 15 minutos.
-
 >FILE=proning_0_pause.intent
 >LANG=en-us
 (pal|paul) pause
@@ -65,7 +59,7 @@ You will now be proning, which is lying on your stomach. Your nurse or tech will
 
 >FILE=proning_1.3_checkup.dialog
 >LANG=en-us
-Have you turned onto your left side?
+By now, you should be lying prone. If you need help, please press the "call nurse" button to call a nurse.
 >LANG=es
 ¿Ha dado vuelta hacia el lado izquierdo?
 
@@ -79,7 +73,7 @@ Have you turned onto your left side?
 
 >FILE=proning_1.4_checkup2.dialog
 >LANG=en-us
-Are you feeling OK?
+Are you feeling OK? If you need help, please press the "call nurse" button to call a nurse.
 
 >FILE=proning_2.1_ask.dialog
 >LANG=en-us
@@ -93,7 +87,7 @@ Please make sure that everything is out of the way as you move closer to the lef
 
 >FILE=proning_2.3_checkup.dialog
 >LANG=en-us
-Does that feel all right?
+Does that feel all right? If you need help, please press the "call nurse" button to call a nurse.
 
 [Patient: yes/no]
 
@@ -101,7 +95,7 @@ Does that feel all right?
 
 >FILE=proning_2.4_checkup2.dialog
 >LANG=en-us
-Are you feeling OK?
+Are you feeling OK? If you need help, please press the "call nurse" button to call a nurse.
 
 >FILE=proning_3.1_ask.dialog
 >LANG=en-us
@@ -120,7 +114,7 @@ Please make sure that everything is out of the way as you move to the center of 
 
 >FILE=proning_3.3_checkup.dialog
 >LANG=en-us
-Does that feel all right?
+Does that feel all right? If you need help, please press the "call nurse" button to call a nurse.
 
 [yes/no]
 
@@ -128,7 +122,7 @@ Does that feel all right?
 
 >FILE=proning_3.4_checkup2.dialog
 >LANG=en-us
-Are you feeling OK?
+Are you feeling OK? If you need help, please press the "call nurse" button to call a nurse.
 
 >FILE=proning_4.1_ask.dialog
 >LANG=en-us
@@ -147,7 +141,7 @@ The next position is "Left Side". We will have you turn onto your left side. Ple
 
 >FILE=proning_4.3_checkup.dialog
 >LANG=en-us
-Have you turned onto your left side?
+By now you should have turned onto your left side. If you need help, please press the "call nurse" button to call a nurse.
 >LANG=es
 ¿Ha dado vuelta hacia el lado izquierdo?
 
@@ -157,7 +151,7 @@ Have you turned onto your left side?
 
 >FILE=proning_4.4_checkup2.dialog
 >LANG=en-us
-Are you feeling OK?
+Are you feeling OK? If you need help, please press the "call nurse" button to call a nurse.
 
 [
 Commands:
