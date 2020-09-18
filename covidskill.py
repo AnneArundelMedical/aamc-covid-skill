@@ -9,6 +9,9 @@ import requests, json, os, os.path, sys, random, inspect
 import subprocess
 
 from . import messaging
+from . import listfiles
+
+MUSIC_DIR = "/home/pi/music"
 
 PRONING_STAGE_COUNT = 4
 PRONING_CHECKIN_DELAY_MINS = 15
@@ -84,6 +87,9 @@ def render(value):
             return self.choice_pending.repr()
         except:
             return "<unable to render>"
+
+def get_music_paths():
+    return listfiles.listfiles(MUSIC_DIR, ".mp3")
 
 class AamcCovid(MycroftSkill):
 
@@ -302,9 +308,12 @@ class AamcCovid(MycroftSkill):
             self.__proning_logic("CHECKUP2", position, delay_mins=3)
 
         elif state == "CHECKUP2":
+            self.stop_music()
             iteration_count = arg - 1
             if iteration_count > 0:
                 self.speak_dialog("proning_%d.4_checkup2" % position)
+                self.play_music(duration_mins=15)
+                self.__proning_logic("CHECKUP2", position, delay_mins=15)
             else:
                 self.__proning_logic("ASK", position + 1)
 
@@ -448,9 +457,13 @@ class AamcCovid(MycroftSkill):
             events = self.messenger.poll()
 
     @intent_file_handler("playmusic.intent")
-    def play_music(self):
-        url = random.choice(MUSIC_URLS)
-        self.audio_service.play(url)
+    def play_music(self, duration_mins=15):
+        music_paths = get_music_paths()
+        music_urls = [ "file://" + path for path in music_paths ]
+        track_count = MUSIC_MIN_TRACK_LENGTH_MINS / duration_mins
+        urls = = listfiles.choose_n(music_urls, track_count)
+        self.log.info("Playing music: " + str(urls))
+        self.audio_service.play(urls)
 
     @intent_file_handler("stopmusic.intent")
     def stop_music(self):
