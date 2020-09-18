@@ -301,6 +301,7 @@ class AamcCovid(MycroftSkill):
                 self.position = None
                 self.__proning_logic("COMPLETE")
             else:
+                self.__update_proning_position(position)
                 self.__proning_logic("MOVE", position)
 
         elif state == "MOVE":
