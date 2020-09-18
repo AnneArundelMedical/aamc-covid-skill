@@ -301,7 +301,11 @@ class AamcCovid(MycroftSkill):
                 self.__proning_logic("MOVE", self.position)
 
         elif state == "ASK":
-            self.__proning_logic("MOVE", position)
+            if position > 4:
+                self.position = None
+                self.__proning_logic("COMPLETE")
+            else:
+                self.__proning_logic("MOVE", position)
 
         elif state == "MOVE":
             self.speak_dialog("proning_%d.2_move" % position)
