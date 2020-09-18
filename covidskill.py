@@ -465,7 +465,7 @@ class AamcCovid(MycroftSkill):
     def play_music(self, duration_mins=15):
         music_paths = get_music_paths()
         music_urls = [ "file://" + path for path in music_paths ]
-        track_count = int(math.ceil(MUSIC_MIN_TRACK_LENGTH_MINS / duration_mins))
+        track_count = int(math.ceil(duration_mins / MUSIC_MIN_TRACK_LENGTH_MINS))
         urls = listfiles.choose_n(music_urls, track_count)
         self.log.info("Playing music: " + str(urls))
         self.audio_service.play(urls)
