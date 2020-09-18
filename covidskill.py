@@ -306,7 +306,7 @@ class AamcCovid(MycroftSkill):
         elif state == "MOVE":
             self.speak_dialog("proning_%d.2_move" % position)
             # TODO: Update position on server
-            self.__proning_logic("CHECKUP2", position, delay_mins=3)
+            self.__proning_logic("CHECKUP2", position, arg, delay_mins=3)
 
         elif state == "CHECKUP2":
             self.stop_music()
@@ -314,7 +314,7 @@ class AamcCovid(MycroftSkill):
             if iteration_count > 0:
                 self.speak_dialog("proning_%d.4_checkup2" % position)
                 self.play_music(duration_mins=15)
-                self.__proning_logic("CHECKUP2", position, delay_mins=15)
+                self.__proning_logic("CHECKUP2", position, iteration_count, delay_mins=15)
             else:
                 self.__proning_logic("ASK", position + 1)
 
