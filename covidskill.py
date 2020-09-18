@@ -275,7 +275,8 @@ class AamcCovid(MycroftSkill):
             self.__proning_logic("START")
 
         elif state == "STOP":
-            self.speak_dialog("routine_stop")
+            if self.position:
+                self.speak_dialog("routine_stop")
             self.position = None
             self.__update_proning_position(0)
 
