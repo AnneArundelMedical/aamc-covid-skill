@@ -142,14 +142,6 @@ class AamcCovid(MycroftSkill):
     def __handle_message_stop_proning(self, message_type, message_payload):
         self.__stop_proning()
 
-    @intent_file_handler("choice_yes.intent")
-    def handle_choice_yes(self, message):
-        self.__handle_choice_response("YES")
-
-    @intent_file_handler("choice_no.intent")
-    def handle_choice_no(self, message):
-        self.__handle_choice_response("NO")
-
     @intent_file_handler("english.intent")
     def handle_english(self, message):
         set_language("en-us")
@@ -299,50 +291,20 @@ class AamcCovid(MycroftSkill):
                 self.speak_dialog("proning_0_resume_no_position")
             else:
                 self.speak_dialog("proning_0_resume")
-                self.__proning_logic("ASK", self.position)
+                self.__proning_logic("MOVE", self.position)
 
         elif state == "ASK":
-            if position > 4:
-                self.position = None
-                self.__proning_logic("COMPLETE")
-            else:
-                self.position = position
-                self.__update_proning_position(position)
-                dialog = "proning_%d.1_ask" % position
-                params = load_file_params(dialog + ".dialog")
-                on_yes = lambda: self.__proning_logic("MOVE", position)
-                on_no = lambda: self.__proning_logic("ASK", position, delay_mins=1)
-                on_timeout = on_no # TODO: limit repeats
-                if params and params.get("EXPECTED") == "no":
-                    on_yes, on_no = on_no, on_yes # Expect "no" as the "affirmative" response
-                self.__choice(dialog, on_yes, on_no, on_timeout)
+            self.__proning_logic("MOVE", position)
 
         elif state == "MOVE":
             self.speak_dialog("proning_%d.2_move" % position)
             # TODO: Update position on server
-            self.__proning_logic("CHECKUP", position, delay_mins=3)
-
-        elif state == "CHECKUP":
-            dialog = "proning_%d.3_checkup" % position
-            #self.speak_dialog(dialog)
-            #self.__proning_logic("CHECKUP2", position, 4, delay_mins=15)
-            self.__choice(dialog,
-                lambda: self.__proning_logic("CHECKUP_OK", position,
-                                             arg=PRONING_CHECKIN_ITERATION_COUNT),
-                self.__call_nurse,
-                self.__call_nurse)
-
-        elif state == "CHECKUP_OK":
-            self.speak_dialog("proning_checkup_ok")
-            self.__proning_logic("CHECKUP2", position, arg, delay_mins=15),
+            self.__proning_logic("CHECKUP2", position, delay_mins=3)
 
         elif state == "CHECKUP2":
             iteration_count = arg - 1
             if iteration_count > 0:
-                self.__choice("proning_%d.4_checkup2" % position,
-                    lambda: self.__proning_logic("CHECKUP_OK", position, iteration_count),
-                    self.__call_nurse,
-                    self.__call_nurse)
+                self.speak_dialog("proning_%d.4_checkup2" % position)
             else:
                 self.__proning_logic("ASK", position + 1)
 
