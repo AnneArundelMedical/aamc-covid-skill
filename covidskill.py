@@ -4,7 +4,7 @@ from mycroft import MycroftSkill, intent_file_handler
 from mycroft.skills.audioservice import AudioService
 from mycroft.util.time import now_local, now_utc
 from mycroft.util.log import LOG
-import datetime
+import datetime, math
 import requests, json, os, os.path, sys, random, inspect
 import subprocess
 
@@ -12,6 +12,7 @@ from . import messaging
 from . import listfiles
 
 MUSIC_DIR = "/home/pi/music"
+MUSIC_MIN_TRACK_LENGTH_MINS = 2.0
 
 PRONING_STAGE_COUNT = 4
 PRONING_CHECKIN_DELAY_MINS = 15
@@ -460,7 +461,7 @@ class AamcCovid(MycroftSkill):
     def play_music(self, duration_mins=15):
         music_paths = get_music_paths()
         music_urls = [ "file://" + path for path in music_paths ]
-        track_count = MUSIC_MIN_TRACK_LENGTH_MINS / duration_mins
+        track_count = int(math.ceil(MUSIC_MIN_TRACK_LENGTH_MINS / duration_mins))
         urls = = listfiles.choose_n(music_urls, track_count)
         self.log.info("Playing music: " + str(urls))
         self.audio_service.play(urls)
