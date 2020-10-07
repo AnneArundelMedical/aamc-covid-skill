@@ -265,6 +265,7 @@ class AamcCovid(MycroftSkill):
                 delay_mins * SECS_PER_MIN,
                 "PRONING_LOGIC",
                 data=(state, position, arg))
+            self.log.info("Proning logic '%s' scheduled in %d minutes." % (state, delay_mins))
             return
 
         #old_state, old_position, old_arg = self.proning_logic_state
