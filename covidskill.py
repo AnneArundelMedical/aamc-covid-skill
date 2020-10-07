@@ -470,9 +470,13 @@ class AamcCovid(MycroftSkill):
 
     @intent_file_handler("playmusic.intent")
     def play_music(self, duration_mins=15):
+        self.log.info("play_music 1")
         music_paths = get_music_paths()
+        self.log.info("play_music 2")
         music_urls = [ "file://" + path for path in music_paths ]
+        self.log.info("play_music 3")
         track_count = int(math.ceil(duration_mins / MUSIC_MIN_TRACK_LENGTH_MINS))
+        self.log.info("play_music 4")
         urls = listfiles.choose_n(music_urls, track_count)
         self.log.info("*** Playing music: " + str(urls) + " ***")
         self.audio_service.play(urls)
