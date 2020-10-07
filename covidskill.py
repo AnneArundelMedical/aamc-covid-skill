@@ -320,8 +320,11 @@ class AamcCovid(MycroftSkill):
             self.stop_music()
             iteration_count = arg - 1
             if iteration_count > 0:
+                self.log.info("SPEAKING")
                 self.speak_dialog("proning_%d.4_checkup2" % position)
+                self.log.info("PLAYING")
                 self.play_music(duration_mins=15)
+                self.log.info("CONTINUING")
                 self.__proning_logic("CHECKUP2", position, iteration_count, delay_mins=15)
             else:
                 self.__proning_logic("ASK", position + 1)
@@ -471,7 +474,7 @@ class AamcCovid(MycroftSkill):
         music_urls = [ "file://" + path for path in music_paths ]
         track_count = int(math.ceil(duration_mins / MUSIC_MIN_TRACK_LENGTH_MINS))
         urls = listfiles.choose_n(music_urls, track_count)
-        self.log.info("Playing music: " + str(urls))
+        self.log.info("*** Playing music: " + str(urls) + " ***")
         self.audio_service.play(urls)
 
     @intent_file_handler("stopmusic.intent")
