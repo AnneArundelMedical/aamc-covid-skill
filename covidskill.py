@@ -480,6 +480,7 @@ class AamcCovid(MycroftSkill):
         urls = listfiles.choose_n(music_urls, track_count)
         self.log.info("*** Playing music: " + str(urls) + " ***")
         self.audio_service.play(urls)
+        self.log.info("play_music 5")
 
     @intent_file_handler("stopmusic.intent")
     def stop_music(self):
