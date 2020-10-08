@@ -100,6 +100,8 @@ class AamcCovid(MycroftSkill):
         self.proning_logic_state = [None, None, None]
         try:
             self.log.info("Music URL count: " + str(len(self.get_music_urls())))
+        except:
+            pass # don't allow failure here
 
     def initialize(self):
         self.audio_service = AudioService(self.bus)
