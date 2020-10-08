@@ -476,6 +476,7 @@ class AamcCovid(MycroftSkill):
         self.log.info("play_music 2")
         music_urls = [ "file://" + path for path in music_paths ]
         self.log.info("play_music 3")
+        self.log.info("Music URLs: " + str(music_urls))
         track_count = int(math.ceil(duration_mins / MUSIC_MIN_TRACK_LENGTH_MINS))
         self.log.info("play_music 4")
         urls = listfiles.choose_n(music_urls, track_count)
