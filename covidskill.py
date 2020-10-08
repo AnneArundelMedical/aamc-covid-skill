@@ -476,7 +476,6 @@ class AamcCovid(MycroftSkill):
     @intent_file_handler("playmusic.intent")
     def play_music(self, duration_mins=15):
         #self.log.info("play_music 1")
-        music_paths = get_music_paths()
         #self.log.info("play_music 2")
         music_urls = self.get_music_urls()
         #self.log.info("play_music 3")
@@ -490,6 +489,7 @@ class AamcCovid(MycroftSkill):
         #self.log.info("play_music 6")
 
     def get_music_urls(self):
+        music_paths = get_music_paths()
         music_urls = [ "file://" + path for path in music_paths ]
         return music_urls
 
