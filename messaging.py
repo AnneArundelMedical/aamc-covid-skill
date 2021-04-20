@@ -109,7 +109,7 @@ class MessageApi:
         self.__message_handlers[message_name] = message_handler
 
     def poll_messages(self):
-        print("poll_messages: begin")
+        #print("poll_messages: begin")
         messages = self.receive_messages()
         for msg in messages:
             try:
