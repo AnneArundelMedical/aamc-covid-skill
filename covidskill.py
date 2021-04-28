@@ -11,7 +11,7 @@ import subprocess
 from . import messaging
 from . import listfiles
 
-MUSIC_DIR = "/home/pi/music"
+MUSIC_DIR = "/home/mycroft/music"
 MUSIC_MIN_TRACK_LENGTH_MINS = 2.0
 
 PRONING_STAGE_COUNT = 4
