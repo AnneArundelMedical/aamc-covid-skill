@@ -36,6 +36,8 @@ SETTING_MESSAGE_SERVER_HOST = "message_server_host"
 
 INIT_MESSAGING_EVENT_NAME = "aamc.covid.initmessaging"
 
+PLAY_MUSIC_EVENT_NAME = "aamc.covid.playmusic"
+
 SECS_PER_MIN = 60
 MS_PER_SEC = 1000
 MS_PER_MIN = MS_PER_SEC * SECS_PER_MIN
@@ -328,7 +330,7 @@ class AamcCovid(MycroftSkill):
                 self.log.info("SPEAKING")
                 self.speak_dialog("proning_%d.4_checkup2" % position)
                 self.log.info("PLAYING")
-                self.play_music(duration_mins=15)
+                self.play_music_after_delay(delay_secs=30, duration_mins=15)
                 self.log.info("CONTINUING")
                 self.__proning_logic("CHECKUP2", position, iteration_count, delay_mins=15)
             else:
@@ -472,6 +474,15 @@ class AamcCovid(MycroftSkill):
     def __handle_poll_events(self, message):
         if self.messenger:
             events = self.messenger.poll()
+
+    def play_music_after_delay(self, delay_secs, duration_mins):
+        self.__schedule_event(
+            play_music, delay_secs, PLAY_MUSIC_EVENT_NAME,
+            data={"duration_mins": duration_mins})
+
+    def play_music_delayed(self, message):
+        duration_mins = message.data["duration_mins"]
+        self.play_music(duration_mins)
 
     @intent_file_handler("playmusic.intent")
     def play_music(self, duration_mins=15):
