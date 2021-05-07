@@ -120,10 +120,7 @@ class AamcCovid(MycroftSkill):
             self.config_dir = self.file_system.path
             self.__init_messaging()
             self.schedule_poll_events()
-        except Exception as e:
-            self.log.error(e)
-        try:
-            self.start_tunnel()
+            #self.start_tunnel()
         except Exception as e:
             self.log.error(e)
 

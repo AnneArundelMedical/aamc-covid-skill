@@ -82,10 +82,17 @@ class MessageApi:
         return self.get("event/server/%d" % self.device_id)
 
     def register_device(self):
-        return self.post("event/device", {
+        device_id = self.post("event/device", {
             "guid": self.guid,
             #"ipAddress": self.ip_address,
         })
+        try:
+            # Save the device ID to the config dir for debugging purposes.
+            device_id_path = os.path.join(self.__config_dir, "aamc_device_guid")
+            with open(device_id_path, "w") as f:
+                f.write(str(device_id))
+        except:
+            pass
 
     def get(self, route):
         url = self.__url(route)

@@ -1,5 +1,6 @@
 #!/bin/sh
 
+cd "$(cd "$(dirname -- "$0")" && pwd)"
 TUNNEL_LISTEN_PORT_BASE="60500"
 TUNNEL_LISTEN_HOST=localhost
 TUNNEL_REDIRECT_PORT=8222
