@@ -37,6 +37,11 @@ fi
 
 DEVICE_ID="$CMD"
 
+# SSH args:
+#  -N  Don't log in.
+#  -R  Tunnel setup.
+#  -p  Remote server's SSH port.
+
 if [ -z "$RUNNING" ] ; then
   TUNNEL_LISTEN_PORT=$(expr $TUNNEL_LISTEN_PORT_BASE + $DEVICE_ID)
   TUNNEL_SETUP="$TUNNEL_LISTEN_PORT:$TUNNEL_LISTEN_HOST:$TUNNEL_REDIRECT_PORT"
