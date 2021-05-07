@@ -88,7 +88,7 @@ class MessageApi:
         })
         try:
             # Save the device ID to the config dir for debugging purposes.
-            device_id_path = os.path.join(self.__config_dir, "aamc_device_guid")
+            device_id_path = os.path.join(self.__config_dir, "aamc_device_id")
             with open(device_id_path, "w") as f:
                 f.write(str(device_id))
         except:
