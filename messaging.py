@@ -69,6 +69,9 @@ class MessageApi:
             "payload": payload,
         })
 
+    def get_device_id(self):
+        return self.device_id
+
     def receive_messages(self):
         return self.get("event/server/%d" % self.device_id)
 
