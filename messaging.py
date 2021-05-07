@@ -47,6 +47,12 @@ class MessageApi:
     def get_ip_address(self):
         return socket.gethostbyname(socket.gethostname()) # FIXME: might not work everywhere
 
+    def get_ip_addresses(self):
+        ip_addrs_process = subprocess.Popen(
+            ["hostname", "-I"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        ip_addrs = ip_addrs_process.stdout.read().split()
+        return ip_addrs
+
     def get_guid(self):
         guid_path = os.path.join(self.__config_dir, "aamc_device_guid")
         if os.path.exists(guid_path):

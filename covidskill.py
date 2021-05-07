@@ -107,18 +107,11 @@ class AamcCovid(MycroftSkill):
 
     def start_tunnel(self):
         device_id = self.messenger.get_device_id()
-        # ip_addrs = get_ip_addresses(self)
         script_dir = os.path.dirname(os.path.realpath(__file__))
         tunnel_script = os.path.join(script_dir, "tunnel.sh")
         tunnel_return_code = subprocess.call([tunnel_script, str(device_id)])
         if tunnel_return_code != 0:
             self.log.warn("Tunnel script failed.")
-
-    def get_ip_addresses(self):
-        ip_addrs_process = subprocess.Popen(
-            ["hostname", "-I"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        ip_addrs = ip_addrs_process.stdout.read().split()
-        return ip_addrs
 
     def initialize(self):
         self.audio_service = AudioService(self.bus)
