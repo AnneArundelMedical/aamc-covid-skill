@@ -32,7 +32,7 @@ class MessageApi:
         self.__log = log
         self.__verify = False # FIXME: Configure with client cert
         self.__message_handlers = {}
-        #self.ip_address = self.get_ip_address()
+        self.ip_addresses = self.get_ip_addresses()
         self.guid = self.get_guid()
         self.device_id = self.register_device()
 
@@ -84,7 +84,7 @@ class MessageApi:
     def register_device(self):
         device_id = self.post("event/device", {
             "guid": self.guid,
-            #"ipAddress": self.ip_address,
+            "ipAddress": ";".join(self.get_ip_addresses()),
         })
         try:
             # Save the device ID to the config dir for debugging purposes.
