@@ -107,10 +107,11 @@ class MessageApi:
     def post(self, route, args):
         url = self.__url(route)
         self.__log_info("POST URL:", url)
-        self.__log_info("POST ARGS:", args)
+        args_json = json.dumps(args)
+        self.__log_info("POST ARGS:", args_json)
         r = requests.post(
             url,
-            data=json.dumps(args),
+            data=args_json,
             headers={"content-type": "application/json"},
             auth=self.__auth,
             verify=self.__verify,
