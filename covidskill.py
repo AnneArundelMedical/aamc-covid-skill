@@ -486,7 +486,7 @@ class AamcCovid(MycroftSkill):
 
     def play_music_after_delay(self, delay_secs, duration_mins):
         self.__schedule_event(
-            play_music, delay_secs, PLAY_MUSIC_EVENT_NAME,
+            self.play_music_delayed, delay_secs, PLAY_MUSIC_EVENT_NAME,
             data={"duration_mins": duration_mins})
 
     def play_music_delayed(self, message):
