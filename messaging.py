@@ -50,7 +50,7 @@ class MessageApi:
     def get_ip_addresses(self):
         ip_addrs_process = subprocess.Popen(
             ["hostname", "-I"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        ip_addrs = ip_addrs_process.stdout.read().split()
+        ip_addrs = ip_addrs_process.stdout.read().decode().split()
         return ip_addrs
 
     def get_guid(self):
@@ -199,9 +199,12 @@ class Tester:
     def h_stop_proning(self, message_type, payload):
         print("STOP PRONING")
         self.messenger.report_proning_position(0)
+    def get_ip_addresses():
+        return self.messenger.get_ip_addresses()
 
 def test():
     x = Tester()
+    print(x.get_ip_addresses())
     x.poll()
     x.call()
 
