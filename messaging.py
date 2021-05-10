@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import datetime, requests, json, socket, pathlib, os.path, uuid
+import datetime, requests, json, socket, pathlib, os.path, uuid, subprocess
 import traceback
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
