@@ -383,6 +383,9 @@ class AamcCovid(MycroftSkill):
         self.speak_dialog("proning_stage_" + str(stage))
 
     def __schedule_event(self, handler, delay_secs, event_name, freq_secs=None, data=None):
+        assert(delay_secs and type(delay_secs).__name__ == "int")
+        assert(event_name and type(event_name).__name__ == "str")
+        assert(not freq_secs or type(freq_secs).__name__ == "int")
         self.log.info("__schedule_event: delay=%d, event=%s" % (delay_secs, event_name))
         event_time = _calc_delay(delay_secs)
         # Timedelta is the wrong type for the frequency. Need to figure out how
@@ -484,7 +487,7 @@ class AamcCovid(MycroftSkill):
         if self.messenger:
             events = self.messenger.poll()
 
-    def play_music_after_delay(self, delay_secs, duration_mins):
+    def play_music_after_delay(self, delay_secs=0, duration_mins=0):
         self.__schedule_event(
             self.play_music_delayed, delay_secs, PLAY_MUSIC_EVENT_NAME,
             data={"duration_mins": duration_mins})
