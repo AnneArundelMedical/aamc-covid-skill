@@ -100,6 +100,7 @@ class AamcCovid(MycroftSkill):
         self.next_proning_event = None
         self.choice_pending = None
         self.proning_logic_state = [None, None, None]
+        self.dialog_to_repeat = None
         try:
             self.log.info("Music URL count: " + str(len(self.get_music_urls())))
         except:
@@ -188,6 +189,15 @@ class AamcCovid(MycroftSkill):
 
     @intent_file_handler("repeat.intent")
     def __repeat(self):
+        self.__repeat_using_saved_dialog()
+
+    def __repeat_using_saved_dialog(self):
+        if self.dialog_to_repeat:
+            self.speak_dialog(self.dialog_to_repeat)
+        else:
+            self.speak_dialog("repeat_fail")
+
+    def __repeat_using_position(self):
         if self.position:
             dialog = "proning_%d.2_move" % self.position
             self.speak_dialog(dialog)
@@ -290,6 +300,8 @@ class AamcCovid(MycroftSkill):
         else:
             self.log.warn("No connection to server, unable to send state update.")
 
+        self.__clear_repeatable_dialog()
+
         if state is None:
             self.__proning_logic("START")
 
@@ -301,7 +313,7 @@ class AamcCovid(MycroftSkill):
             self.__update_proning_position(0)
 
         elif state == "START":
-            self.speak_dialog("proning_0_intro")
+            self.__speak_repeatable_dialog("proning_0_intro")
             self.__proning_logic("ASK", 1)
 
         elif state == "PAUSE":
@@ -320,27 +332,28 @@ class AamcCovid(MycroftSkill):
                 self.position = None
                 self.__proning_logic("COMPLETE")
             else:
+                self.position = position
                 self.__update_proning_position(position)
                 self.__proning_logic("MOVE", position)
 
         elif state == "MOVE":
-            self.speak_dialog("proning_%d.2_move" % position)
+            self.__speak_repeatable_dialog("proning_%d.2_move" % position)
             # TODO: Update position on server
             self.__proning_logic("CHECKUP", position, delay_mins=3)
 
         elif state == "CHECKUP":
-            self.speak_dialog("proning_%d.3_checkup" % position)
+            self.__speak_repeatable_dialog("proning_%d.3_checkup" % position)
             self.__proning_logic("CHECKUP2", position, 4, delay_mins=15)
 
         elif state == "CHECKUP2":
             self.stop_music()
             iteration_count = arg - 1
             if iteration_count > 0:
-                self.log.info("SPEAKING")
-                self.speak_dialog("proning_%d.4_checkup2" % position)
-                self.log.info("PLAYING")
+                #self.log.info("SPEAKING")
+                self.__speak_repeatable_dialog("proning_%d.4_checkup2" % position)
+                #self.log.info("PLAYING")
                 self.play_music_after_delay(delay_secs=30, duration_mins=15)
-                self.log.info("CONTINUING")
+                #self.log.info("CONTINUING")
                 self.__proning_logic("CHECKUP2", position, iteration_count, delay_mins=15)
             else:
                 self.__proning_logic("ASK", position + 1)
@@ -353,13 +366,19 @@ class AamcCovid(MycroftSkill):
         else:
             self.log.error("Invalid state: " + state)
 
+    def __speak_repeatable_dialog(self, dialog):
+        self.dialog_to_repeat = dialog
+        self.speak_dialog(dialog)
+
+    def __clear_repeatable_dialog(self):
+        self.dialog_to_repeat = None
+
     def __do_nextpos_event(self, stage):
         self.log.info("__do_nextpos_event")
         checkin_delay = datetime.timedelta(seconds=10)
         checkin_event_time = now() + checkin_delay
         checkin_event_frequency = 0
-        self.log.info("Do nextpos event: %s / %s / %s"
-                      % (
+        self.log.info("Do nextpos event: %s / %s / %s" % (
                           checkin_event_time,
                           checkin_event_frequency,
                           PRONING_CHECKIN_EVENT_NAME,
