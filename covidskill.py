@@ -236,6 +236,10 @@ class AamcCovid(MycroftSkill):
     def __resume(self):
         self.__proning_logic("RESUME")
 
+    @intent_file_handler("forward.intent")
+    def __forward(self):
+        self.__proning_logic("FORWARD")
+
     def __update_proning_position(self, position_number):
         if not self.messenger:
             self.log.warn("Unable to update proning position, messenger not initialized.")
@@ -319,6 +323,12 @@ class AamcCovid(MycroftSkill):
             else:
                 self.speak_dialog("proning_0_resume")
                 self.__proning_logic("MOVE", self.position)
+
+        elif state == "FORWARD":
+            if not self.position:
+                self.speak_dialog("forward_fail")
+            else:
+                self.__proning_logic("ASK", self.position + 1)
 
         elif state == "ASK":
             if position > 4:
