@@ -250,18 +250,11 @@ class AamcCovid(MycroftSkill):
             self.__proning_logic("ASK", position)
 
     def __stop_proning(self):
-        try:
-            self.cancel_scheduled_event(PRONING_CHECKIN_EVENT_NAME)
-        except:
-            pass
-        try:
-            self.cancel_scheduled_event(PRONING_NEXTPOS_EVENT_NAME)
-        except:
-            pass
-        try:
-            self.cancel_scheduled_event("PRONING_LOGIC")
-        except:
-            pass
+        for event in [PRONING_CHECKIN_EVENT_NAME, PRONING_NEXTPOS_EVENT_NAME, "PRONING_LOGIC"]:
+            try:
+                self.cancel_scheduled_event(event)
+            except:
+                pass
         self.__proning_logic("STOP")
 
     def __pause_proning(self):
