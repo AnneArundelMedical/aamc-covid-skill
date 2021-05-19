@@ -49,6 +49,8 @@ El proceso ha terminado.
 >FILE=proning_0_pause.voc
 >LANG=en-us
 pause
+suspend
+wait
 
 >FILE=proning_0_pause.dialog
 >LANG=en-us
@@ -58,6 +60,7 @@ Pausing the proning protocol. Please say "pal resume" to continue.
 >LANG=en-us
 resume
 unpause
+keep going
 
 >FILE=proning_0_resume.dialog
 >LANG=en-us
@@ -238,6 +241,8 @@ No hay nada que repetir.
 >FILE=restart.voc
 >LANG=en-us
 restart
+go back
+same position
 >LANG=es
 reiniciar
 reinicia
@@ -273,6 +278,7 @@ No se puede seguir.
 >FILE=forward.voc
 >LANG=en-us
 forward
+next position
 >LANG=es
 pal adelante
 
@@ -284,7 +290,7 @@ No en progreso.
 
 >FILE=next.voc
 >LANG=en-us
-next
+next step
 >LANG=es
 pal próximo
 
