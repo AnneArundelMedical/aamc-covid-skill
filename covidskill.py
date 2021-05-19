@@ -182,7 +182,8 @@ class AamcCovid(MycroftSkill):
     def handle_start_routine(self, message):
         self.__start_proning()
 
-    @intent_handler(IntentBuilder('').require('prefix').require("routine_stop"))
+    @intent_file_handler("routine_stop_full")
+    @intent_handler(intent_with_prefix("routine_stop"))
     def handle_stop_routine(self, message):
         self.__stop_proning()
 
