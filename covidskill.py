@@ -169,11 +169,11 @@ class AamcCovid(MycroftSkill):
     def __handle_message_stop_proning(self, message_type, message_payload):
         self.__stop_proning()
 
-    @intent_file_handler("english.intent")
+    @intent_file_handler("english.voc")
     def handle_english(self, message):
         set_language("en-us")
 
-    @intent_file_handler("spanish.intent")
+    @intent_file_handler("spanish.voc")
     def handle_spanish(self, message):
         set_language("es")
 
