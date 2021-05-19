@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # vim: et ts=8 sts=4 sw=4
-from mycroft import MycroftSkill, intent_file_handler
+
+from adapt.intent import IntentBuilder
+#from mycroft import MycroftSkill, intent_file_handler
+from mycroft.skills.core import MycroftSkill, intent_handler, intent_file_handler
 from mycroft.skills.audioservice import AudioService
 from mycroft.util.time import now_local, now_utc
 from mycroft.util.log import LOG
