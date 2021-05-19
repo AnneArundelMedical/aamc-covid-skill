@@ -197,7 +197,6 @@ start (protocol|proning|pruning|prawning)
 (protocol|proning|pruning|prawning) start
 initiate
 commence
-
 >LANG=es
 (iniciar|inicia) pal
 pal (iniciar|inicia)
@@ -210,6 +209,10 @@ cease
 terminate
 finish
 conclude
+>LANG=es
+dejar
+cesar
+parar
 
 >FILE=routine_pause.voc
 >LANG=en-us
