@@ -19,8 +19,7 @@ paul
 powell
 power
 i'll
-how
-file
+illustrious
 
 
 >FILE=proning.voc
