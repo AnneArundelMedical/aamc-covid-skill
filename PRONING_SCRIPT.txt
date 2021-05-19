@@ -9,6 +9,27 @@
 [Make list of commands: music, weather, etc.]
 [Set to Spanish mode.]
 
+
+>FILE=prefix.intent
+>LANG=en-us
+pal
+p a l
+pl
+paul
+powell
+i'll
+how
+file
+
+
+>FILE=proning.intent
+>LANG=en-us
+proning
+pruning
+prawning
+groaning
+
+
 >FILE=proning_0_intro.dialog
 >LANG=en-us
 
@@ -26,7 +47,7 @@ El proceso ha terminado.
 
 >FILE=proning_0_pause.intent
 >LANG=en-us
-(pal|paul) pause
+pause
 
 >FILE=proning_0_pause.dialog
 >LANG=en-us
@@ -34,8 +55,8 @@ Pausing the proning protocol. Please say "pal resume" to continue.
 
 >FILE=proning_0_resume.intent
 >LANG=en-us
-(pal|paul) resume
-(pal|paul) unpause
+resume
+unpause
 
 >FILE=proning_0_resume.dialog
 >LANG=en-us
@@ -168,21 +189,19 @@ Protocol can be restarted periodically.
 
 >FILE=routine_start.intent
 >LANG=en-us
-start (pal|p a l|pl|paul|protocol|proning|pruning|prawning|powell)
-(pal|p a l|pl|paul|protocol|proning|pruning|prawning|powell) start
+start (protocol|proning|pruning|prawning)
+(protocol|proning|pruning|prawning) start
 >LANG=es
 (iniciar|inicia) pal
 pal (iniciar|inicia)
 
 >FILE=routine_stop.intent
 >LANG=en-us
-stop pal protocol
-pal protocol stop
-(pal|p a l|pl|paul) stop
+stop
 
 >FILE=routine_pause.intent
 >LANG=en-us
-(pal|p a l|pl|paul) pause
+pause
 
 >FILE=call_nurse.intent
 >LANG=en-us
@@ -196,11 +215,10 @@ Por favor presionar el botón para llamar a enfermería.
 
 >FILE=repeat.intent
 >LANG=en-us
-(pal|p a l|pl|paul) repeat
 repeat
 what
 >LANG=es
-pal repetir
+repetir
 
 >FILE=repeat_fail.dialog
 >LANG=en-us
@@ -210,11 +228,11 @@ No hay nada que repetir.
 
 >FILE=restart.intent
 >LANG=en-us
-(pal|p a l|pl|paul) restart
+restart
 >LANG=es
-pal reiniciar
-pal reinicia
-pal reinicie
+reiniciar
+reinicia
+reinicie
 
 >FILE=restart_fail.dialog
 >LANG=en-us
@@ -224,7 +242,7 @@ No hay nada que reiniciar.
 
 >FILE=continue.intent
 >LANG=en-us
-(pal|p a l|pl|paul) continue
+continue
 continue
 >LANG=es
 pal continuar
@@ -245,7 +263,7 @@ No se puede seguir.
 
 >FILE=forward.intent
 >LANG=en-us
-(pal|p a l|pl|paul) forward
+forward
 >LANG=es
 pal adelante
 
@@ -257,7 +275,7 @@ No en progreso.
 
 >FILE=next.intent
 >LANG=en-us
-(pal|p a l|pl|paul) next
+next
 >LANG=es
 pal próximo
 
@@ -285,13 +303,13 @@ speak English
 
 >FILE=playmusic.intent
 >LANG=en-us
-pal play music
+play music
 >LANG=es
 pal juega música
 
 >FILE=stopmusic.intent
 >LANG=en-us
-pal stop music
+stop music
 >LANG=es
 pal detener (la|) música
 

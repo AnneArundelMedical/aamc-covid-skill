@@ -88,6 +88,13 @@ def render(value):
 def get_music_paths():
     return listfiles.listfiles(MUSIC_DIR, ".mp3")
 
+def intent_with_prefix(*intent_names):
+    ib = IntentBuilder('')
+    ib = ib.require('prefix')
+    for intent in intent_names:
+        ib = ib.require(intent)
+    return ib
+
 class AamcCovid(MycroftSkill):
 
     def __init__(self):
@@ -167,19 +174,20 @@ class AamcCovid(MycroftSkill):
     def handle_spanish(self, message):
         set_language("es")
 
-    @intent_file_handler("routine_start.intent")
+    #@intent_handler(IntentBuilder('').require('prefix').require("routine_start"))
+    @intent_handler(intent_with_prefix('routine_start'))
     def handle_start_routine(self, message):
         self.__start_proning()
 
-    @intent_file_handler("routine_stop.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("routine_stop"))
     def handle_stop_routine(self, message):
         self.__stop_proning()
 
-    @intent_file_handler("routine_pause.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("routine_pause"))
     def handle_stop_routine(self, message):
         self.__pause_proning()
 
-    @intent_file_handler("call_nurse.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("call_nurse"))
     def __call_nurse(self):
         self.speak_dialog("call_nurse")
         if not self.messenger:
@@ -187,7 +195,7 @@ class AamcCovid(MycroftSkill):
         else:
             self.messenger.call()
 
-    @intent_file_handler("repeat.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("repeat"))
     def __repeat(self):
         self.__repeat_using_saved_dialog()
 
@@ -204,14 +212,14 @@ class AamcCovid(MycroftSkill):
         else:
             self.speak_dialog("repeat_fail")
 
-    @intent_file_handler("restart.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("restart"))
     def __restart(self):
         if self.position:
             self.__proning_logic("ASK", self.position)
         else:
             self.speak_dialog("restart_fail")
 
-    @intent_file_handler("continue.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("continue"))
     def __continue_proning(self):
         state, position, arg = self.proning_logic_state
         if not self.next_proning_event:
@@ -221,22 +229,22 @@ class AamcCovid(MycroftSkill):
         else:
             self.speak_dialog("continue_invalid")
 
-    @intent_file_handler("next.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("next"))
     def __next_proning_event(self):
         if self.next_proning_event:
             self.__proning_logic(*self.next_proning_event)
         else:
             self.speak_dialog("next_fail")
 
-    @intent_file_handler("proning_0_pause.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("proning_0_pause"))
     def __pause(self):
         self.__proning_logic("PAUSE")
 
-    @intent_file_handler("proning_0_resume.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("proning_0_resume"))
     def __resume(self):
         self.__proning_logic("RESUME")
 
-    @intent_file_handler("forward.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("forward"))
     def __forward(self):
         self.__proning_logic("FORWARD")
 
@@ -518,7 +526,7 @@ class AamcCovid(MycroftSkill):
         duration_mins = message.data["duration_mins"]
         self.play_music(duration_mins)
 
-    @intent_file_handler("playmusic.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("playmusic"))
     def play_music(self, duration_mins=15):
         #self.log.info("play_music 1")
         #self.log.info("play_music 2")
@@ -538,7 +546,7 @@ class AamcCovid(MycroftSkill):
         music_urls = [ "file://" + path for path in music_paths ]
         return music_urls
 
-    @intent_file_handler("stopmusic.intent")
+    @intent_handler(IntentBuilder('').require('prefix').require("stopmusic"))
     def stop_music(self):
         # TODO: STOP ANY PENDING DELAYED PLAY MUSIC MESSAGES
         self.audio_service.stop()
