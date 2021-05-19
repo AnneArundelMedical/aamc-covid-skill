@@ -202,6 +202,11 @@ pal (iniciar|inicia)
 >FILE=routine_stop.voc
 >LANG=en-us
 stop
+halt
+cease
+terminate
+finish
+conclude
 
 >FILE=routine_pause.voc
 >LANG=en-us
