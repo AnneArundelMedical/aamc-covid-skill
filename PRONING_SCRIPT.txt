@@ -10,7 +10,7 @@
 [Set to Spanish mode.]
 
 
->FILE=prefix.intent
+>FILE=prefix.voc
 >LANG=en-us
 pal
 p a l
@@ -23,7 +23,7 @@ how
 file
 
 
->FILE=proning.intent
+>FILE=proning.voc
 >LANG=en-us
 proning
 pruning
@@ -46,7 +46,7 @@ The PAL proning protocol is complete.
 >LANG=es
 El proceso ha terminado.
 
->FILE=proning_0_pause.intent
+>FILE=proning_0_pause.voc
 >LANG=en-us
 pause
 
@@ -54,7 +54,7 @@ pause
 >LANG=en-us
 Pausing the proning protocol. Please say "pal resume" to continue.
 
->FILE=proning_0_resume.intent
+>FILE=proning_0_resume.voc
 >LANG=en-us
 resume
 unpause
@@ -188,23 +188,26 @@ Any no answer should alert healthcare team member.
 Protocol can be restarted periodically.
 ]
 
->FILE=routine_start.intent
+>FILE=routine_start.voc
 >LANG=en-us
 start (protocol|proning|pruning|prawning)
 (protocol|proning|pruning|prawning) start
+initiate
+commence
+
 >LANG=es
 (iniciar|inicia) pal
 pal (iniciar|inicia)
 
->FILE=routine_stop.intent
+>FILE=routine_stop.voc
 >LANG=en-us
 stop
 
->FILE=routine_pause.intent
+>FILE=routine_pause.voc
 >LANG=en-us
 pause
 
->FILE=call_nurse.intent
+>FILE=call_nurse.voc
 >LANG=en-us
 (please|) call (a|the|) nurse
 
@@ -214,7 +217,7 @@ To call a nurse, please press the "nurse call" button.
 >LANG=es
 Por favor presionar el botón para llamar a enfermería.
 
->FILE=repeat.intent
+>FILE=repeat.voc
 >LANG=en-us
 repeat
 what
@@ -227,7 +230,7 @@ PAL protocol not in progress, nothing to repeat.
 >LANG=es
 No hay nada que repetir.
 
->FILE=restart.intent
+>FILE=restart.voc
 >LANG=en-us
 restart
 >LANG=es
@@ -241,7 +244,7 @@ PAL protocol not in progress, nothing to restart.
 >LANG=es
 No hay nada que reiniciar.
 
->FILE=continue.intent
+>FILE=continue.voc
 >LANG=en-us
 continue
 continue
@@ -262,7 +265,7 @@ Unable to continue.
 >LANG=es
 No se puede seguir.
 
->FILE=forward.intent
+>FILE=forward.voc
 >LANG=en-us
 forward
 >LANG=es
@@ -274,7 +277,7 @@ PAL protocol not in progress, unable to advance to next position.
 >LANG=es
 No en progreso.
 
->FILE=next.intent
+>FILE=next.voc
 >LANG=en-us
 next
 >LANG=es
@@ -286,7 +289,7 @@ PAL protocol not in progress, unable to advance to next step.
 >LANG=es
 No en progreso.
 
->FILE=english.intent
+>FILE=english.voc
 >LANG=en-us
 switch to English
 habla inglés
@@ -294,7 +297,7 @@ habla inglés
 habla inglés
 switch to English
 
->FILE=spanish.intent
+>FILE=spanish.voc
 >LANG=en-us
 switch to spanish
 habla español
@@ -302,25 +305,25 @@ habla español
 habla español
 speak English
 
->FILE=playmusic.intent
+>FILE=playmusic.voc
 >LANG=en-us
 play music
 >LANG=es
 pal juega música
 
->FILE=stopmusic.intent
+>FILE=stopmusic.voc
 >LANG=en-us
 stop music
 >LANG=es
 pal detener (la|) música
 
->FILE=choice_yes.intent
+>FILE=choice_yes.voc
 >LANG=en-us
 affirmative
 >LANG=es
 affirmativo
 
->FILE=choice_no.intent
+>FILE=choice_no.voc
 >LANG=en-us
 negative
 >LANG=es
