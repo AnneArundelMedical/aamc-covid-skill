@@ -168,23 +168,21 @@ Protocol can be restarted periodically.
 
 >FILE=routine_start.intent
 >LANG=en-us
-start (pal|p a l|pl|paul|protocol|proning|prawning|powell)
-(pal|p a l|pl|paul|protocol|proning|prawning|powell) start
+start (pal|p a l|pl|paul|protocol|proning|pruning|prawning|powell)
+(pal|p a l|pl|paul|protocol|proning|pruning|prawning|powell) start
 >LANG=es
 (iniciar|inicia) pal
 pal (iniciar|inicia)
 
 >FILE=routine_stop.intent
 >LANG=en-us
-(stop pal protocol|pal protocol stop)
+stop pal protocol
+pal protocol stop
+(pal|p a l|pl|paul) stop
 
 >FILE=routine_pause.intent
 >LANG=en-us
-(pause pal protocol|pal protocol pause)
-
->FILE=routine_next.intent
->LANG=en-us
-(pause pal|pause pal protocol|pal protocol pause|pal pause)
+(pal|p a l|pl|paul) pause
 
 >FILE=call_nurse.intent
 >LANG=en-us
@@ -198,10 +196,11 @@ Por favor presionar el botón para llamar a enfermería.
 
 >FILE=repeat.intent
 >LANG=en-us
+(pal|p a l|pl|paul) repeat
 repeat
 what
 >LANG=es
-repetir
+pal repetir
 
 >FILE=repeat_fail.dialog
 >LANG=en-us
@@ -211,11 +210,11 @@ No hay nada que repetir.
 
 >FILE=restart.intent
 >LANG=en-us
-restart
+(pal|p a l|pl|paul) restart
 >LANG=es
-reiniciar
-reinicia
-reinicie
+pal reiniciar
+pal reinicia
+pal reinicie
 
 >FILE=restart_fail.dialog
 >LANG=en-us
@@ -225,11 +224,12 @@ No hay nada que reiniciar.
 
 >FILE=continue.intent
 >LANG=en-us
+(pal|p a l|pl|paul) continue
 continue
 >LANG=es
-continuar
-seguir
-sigue
+pal continuar
+pal seguir
+pal sigue
 
 >FILE=continue_fail.dialog
 >LANG=en-us
@@ -243,15 +243,27 @@ Unable to continue.
 >LANG=es
 No se puede seguir.
 
+>FILE=forward.intent
+>LANG=en-us
+(pal|p a l|pl|paul) forward
+>LANG=es
+pal adelante
+
+>FILE=forward_fail.dialog
+>LANG=en-us
+PAL protocol not in progress, unable to advance to next position.
+>LANG=es
+No en progreso.
+
 >FILE=next.intent
 >LANG=en-us
-next
+(pal|p a l|pl|paul) next
 >LANG=es
-próximo
+pal próximo
 
 >FILE=next_fail.dialog
 >LANG=en-us
-PAL protocol not in progress, unable to advance to next position.
+PAL protocol not in progress, unable to advance to next step.
 >LANG=es
 No en progreso.
 
