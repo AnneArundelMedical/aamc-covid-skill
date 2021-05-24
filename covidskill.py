@@ -14,6 +14,9 @@ import subprocess
 from . import messaging
 from . import listfiles
 
+#CHECKUP_ITERATION_COUNT = 4 # 60 mins per position
+CHECKUP_ITERATION_COUNT = 2 # 30 mins per position
+
 MUSIC_DIR = "/home/mycroft/music"
 MUSIC_MIN_TRACK_LENGTH_MINS = 2.0
 
@@ -358,7 +361,7 @@ class AamcCovid(MycroftSkill):
 
         elif state == "CHECKUP":
             self.__speak_repeatable_dialog("proning_%d.3_checkup" % position)
-            self.__proning_logic("CHECKUP2", position, 4, delay_mins=15)
+            self.__proning_logic("CHECKUP2", position, CHECKUP_ITERATION_COUNT, delay_mins=15)
 
         elif state == "CHECKUP2":
             self.stop_music()
