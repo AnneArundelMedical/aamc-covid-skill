@@ -19,7 +19,7 @@ paul
 powell
 power
 i'll
-illustrious
+protocol
 
 
 >FILE=proning.voc
@@ -192,8 +192,8 @@ Protocol can be restarted periodically.
 
 >FILE=routine_start.voc
 >LANG=en-us
-start (protocol|proning|pruning|prawning)
-(protocol|proning|pruning|prawning) start
+start (proning|pruning|prawning)
+(proning|pruning|prawning) start
 initiate
 commence
 >LANG=es
