@@ -7,7 +7,14 @@ if [ ! -e "$PKGS_FILE" ] ; then
   exit 1
 fi
 
-for pkg in $(cat "$PKGS_FILE") ; do
-  apt install "$pkg"
-done
+while read pkg ; do
+  FIRST_LETTER=$(echo "$pkg" | head -c 1)
+  if [ "$FIRST_LETTER" != "#" ] ; then
+    echo "INSTALLING PACKAGE: $pkg" >/dev/stderr
+    apt install "$pkg" || {
+      echo "INSTALL FAILED, ABORTING." >/dev/stderr
+      exit 1
+    }
+  fi
+done < "$PKGS_FILE"
 

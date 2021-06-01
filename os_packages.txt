@@ -1,1 +1,4 @@
+# ntpdate is needed to fix timing problems
 ntpdate
+vim
+tmux
