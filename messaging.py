@@ -47,9 +47,6 @@ class MessageApi:
         if self.__log:
             self.__log.error(_format_log_message(message))
 
-    def get_ip_address(self):
-        return socket.gethostbyname(socket.gethostname()) # FIXME: might not work everywhere
-
     def get_ip_addresses(self):
         ip_addrs_process = subprocess.Popen(
             ["hostname", "-I"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
