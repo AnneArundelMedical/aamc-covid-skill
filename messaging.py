@@ -95,6 +95,14 @@ class MessageApi:
             pass
         return device_id
 
+    def get_devices(self):
+        """
+        This is the devices call that the web UI makes to poll device states.
+        For a device, it's only useful to get the IP addresses of the other
+        devices, which can be used for maintenance/troubleshooting work.
+        """
+        devices = self.get("event/device")
+
     def get(self, route):
         url = self.__url(route)
         self.__log_info("GET URL:", url)

@@ -362,6 +362,7 @@ class AamcCovid(MycroftSkill):
         elif state == "CHECKUP":
             self.__speak_repeatable_dialog("proning_%d.3_checkup" % position)
             self.__proning_logic("CHECKUP2", position, CHECKUP_ITERATION_COUNT, delay_mins=15)
+            self.play_music_after_delay(delay_secs=30, duration_mins=15)
 
         elif state == "CHECKUP2":
             self.stop_music()
