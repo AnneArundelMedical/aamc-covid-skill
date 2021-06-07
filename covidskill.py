@@ -299,7 +299,7 @@ class AamcCovid(MycroftSkill):
             self.log.info("Delay: %d minutes" % delay_mins)
             self.__schedule_event(
                 self.__proning_logic_sched,
-                delay_mins * SECS_PER_MIN,
+                round(delay_mins * SECS_PER_MIN),
                 "PRONING_LOGIC",
                 data=(state, position, arg))
             self.log.info("Proning logic '%s' scheduled in %d minutes." % (state, delay_mins))
@@ -357,7 +357,7 @@ class AamcCovid(MycroftSkill):
         elif state == "MOVE":
             self.__speak_repeatable_dialog("proning_%d.2_move" % position)
             # TODO: Update position on server
-            self.__proning_logic("CHECKUP", position, delay_mins=3)
+            self.__proning_logic("CHECKUP", position, delay_mins=0.75)
 
         elif state == "CHECKUP":
             self.__speak_repeatable_dialog("proning_%d.3_checkup" % position)
